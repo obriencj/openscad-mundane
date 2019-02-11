@@ -13,13 +13,13 @@ module brim($fn=100) {
      difference() {
 	  cylinder(4, 16, 16);
 	  translate([0, 0, -1])
-	       cylinder(6, 13.9, 13.9);
+	       cylinder(6, 13.95, 13.95);
      }
      translate([0, 0, 1.75]) {
 	  difference() {
 	       cylinder(0.5, 15, 15);
 	       translate([0, 0, -1])
-		    cylinder(2, 13.75, 13.75);
+		    cylinder(2, 13.6, 13.6);
 	  }
      }
 }
