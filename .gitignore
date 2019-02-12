@@ -2,7 +2,9 @@
 *.bak
 *.gz
 *.patch
+*.stl
 *.tar
 *~
 .#*
+.DS_Store
 tmp
