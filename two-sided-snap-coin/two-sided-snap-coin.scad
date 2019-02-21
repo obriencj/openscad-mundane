@@ -4,7 +4,7 @@ module face(val, diameter, thickness, fontsize, $fn=100) {
      union() {
 	  cylinder(thickness / 2, (diameter - thickness) / 2, diameter / 2);
 	  linear_extrude(height=thickness)
-	       text(str(val), size=5,
+	       text(str(val), size=fontsize,
 		    halign="center", valign="center");
      };
 }
@@ -12,33 +12,38 @@ module face(val, diameter, thickness, fontsize, $fn=100) {
 module brim(diameter, thickness, rim, $fn=100) {
      idiam = diameter - rim;
 
-     difference() {
-	  cylinder(thickness, diameter / 2, diameter / 2);
-	  translate([0, 0, -1])
-	       cylinder(thickness + 2, idiam / 2, idiam / 2);
-     }
-
      hthick = thickness / 2;
      qthick = thickness / 4;
 
      iid = (idiam - hthick);
      iir = iid / 2;
 
-     translate([0, 0, qthick]) {
-	  difference() {
-	       translate([0, 0, 0.25])
+     wiggle = 0.1;
+
+     difference() {
+	  union() {
+	       difference() {
+		    cylinder(thickness, diameter / 2, diameter / 2);
+		    translate([0, 0, -1])
+			 cylinder(thickness + 2, idiam / 2, idiam / 2);
+
+ 	       };
+	       translate([0, 0, qthick + 0.25])
 		    cylinder(hthick - 0.5, idiam / 2, idiam / 2);
+	  };
 
-	       translate([0, 0, 0])
-		    cylinder(hthick, iir, iir);
+	  // just to clean up the hole slightly
+	  translate([0, 0, qthick])
+	       cylinder(hthick, iir - wiggle, iir - wiggle);
 
-	       translate([0, 0, qthick])
-		    cylinder(qthick, iir, idiam / 2);
+	  // upper bevel
+	  translate([0, 0, qthick * 2])
+	       cylinder(qthick, iir, (idiam / 2) + wiggle);
 
-	       translate([0, 0, 0])
-		    cylinder(qthick, idiam / 2, iir);
-	  }
-     }
+	  // lower bevel
+	  translate([0, 0, qthick])
+	       cylinder(qthick, (idiam / 2) + wiggle, iir);
+     };
 }
 
 
