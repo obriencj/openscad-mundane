@@ -1,4 +1,5 @@
 
+
 module rounded_box(width, height, thickness, turn_r=4, $fn=100) {
      turn_d = turn_r * 2;
 
@@ -15,18 +16,23 @@ module rounded_box(width, height, thickness, turn_r=4, $fn=100) {
 }
 
 
-module plaque_base(width=30, height=20, rim=1, thick=2, inset=1) {
+module subtract_inset_same(width, height, rim, thick, inset) {
 
      difference() {
-	  rounded_box(width, height, thick);
+	  children();
 
-	  translate([rim, rim, inset])
-	       resize([width - (2 * rim),
-		       height - (2 * rim),
-		       thick])
-	       rounded_box(width, height, thick);
+	  translate([rim, rim, inset]) {
+	       resize([width - (2 * rim), height - (2 * rim), thick]) {
+		    children();
+	       }
+	  }
      };
+}
 
+
+module plaque_base(width=30, height=20, rim=1, thick=2, inset=1) {
+     subtract_inset_same(width, height, rim, thick, inset)
+	  render() rounded_box(width, height, thick);
 };
 
 
