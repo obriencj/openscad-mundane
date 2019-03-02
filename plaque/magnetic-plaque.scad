@@ -31,23 +31,42 @@ module subtract_inset_same(width, height, rim, thick, inset) {
 }
 
 
-module plaque_base(width=30, height=20, rim=1, thick=2, inset=1) {
-     turn_r = 1.6;
-     turn_d = turn_r * 2;
+module plaque_base(width=30, height=20, rim=1, thick=2, inset=1, $fn=100) {
+
+     // magnet sizing
+     magnet_d = 8;  // mm diameter
+     magnet_h = 3;  // mm thickness
+     magnet_r = magnet_d / 2;
+
+     magnetc_r = magnet_r + 0.5;
+     magnetc_h = magnet_h + 1;
 
      difference() {
-	  subtract_inset_same(width, height, rim, thick, inset) {
-	       render() rounded_box(width, height, thick);
+	  union() {
+	       subtract_inset_same(width, height, rim, thick, inset) {
+		    render() rounded_box(width, height, thick);
+	       };
+
+	       // magnet holes
+	       translate([magnetc_r + 2, magnetc_r + 2, 0])
+		    cylinder(magnetc_h, magnetc_r, magnetc_r);
+	       translate([width - magnet_r - 2, magnetc_r + 2, 0])
+		    cylinder(magnetc_h, magnetc_r, magnetc_r);
+	       translate([width - magnet_r - 2, height - magnetc_r - 2, 0])
+		    cylinder(magnetc_h, magnetc_r, magnetc_r);
+	       translate([magnet_r + 2, height - magnetc_r - 2, 0])
+		    cylinder(magnetc_h, magnetc_r, magnetc_r);
 	  };
 
-	  translate([turn_r + 2, turn_r + 2, -1])
-	       cylinder(4, turn_r, turn_r);
-	  translate([width - turn_r - 2, turn_r + 2, -1])
-	       cylinder(4, turn_r, turn_r);
-	  translate([width - turn_r - 2, height - turn_r - 2, -1])
-	       cylinder(4, turn_r, turn_r);
-	  translate([turn_r + 2, height - turn_r - 2, -1])
-	       cylinder(4, turn_r, turn_r);
+	  // magnet holes
+	  translate([magnet_r + 2, magnet_r + 2, -1])
+	       cylinder(magnetc_h, magnet_r, magnet_r);
+	  translate([width - magnet_r - 2, magnet_r + 2, -1])
+	       cylinder(magnetc_h, magnet_r, magnet_r);
+	  translate([width - magnet_r - 2, height - magnet_r - 2, -1])
+	       cylinder(magnetc_h, magnet_r, magnet_r);
+	  translate([magnet_r + 2, height - magnet_r - 2, -1])
+	       cylinder(magnetc_h, magnet_r, magnet_r);
      };
 }
 
@@ -68,20 +87,6 @@ module plaque(width=60, height=40, rim=6, thick=4, inset=1, $fn=100) {
 	       }
 	  }
      }
-}
-
-
-module plaque_title(title, subtitle, $fn=100) {
-
-     // title
-     translate([0, 59, 0])
-	  linear_extrude(height=5)
-	  text(title, size=12, valign="center");
-
-     // subtitle
-     translate([0, 45, 0])
-	  linear_extrude(height=5)
-	  text(subtitle, size=6, valign="center");
 }
 
 
