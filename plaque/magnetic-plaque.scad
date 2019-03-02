@@ -39,7 +39,6 @@ module plaque_base(width=30, height=20, rim=1, thick=2, inset=1, $fn=100) {
      magnet_r = magnet_d / 2;
 
      magnetc_r = magnet_r + 0.5;
-     magnetc_h = magnet_h + 1;
 
      difference() {
 	  union() {
@@ -49,24 +48,24 @@ module plaque_base(width=30, height=20, rim=1, thick=2, inset=1, $fn=100) {
 
 	       // magnet holes
 	       translate([magnetc_r + 2, magnetc_r + 2, 0])
-		    cylinder(magnetc_h, magnetc_r, magnetc_r);
+		    cylinder(thick, magnetc_r, magnetc_r);
 	       translate([width - magnet_r - 2, magnetc_r + 2, 0])
-		    cylinder(magnetc_h, magnetc_r, magnetc_r);
+		    cylinder(thick, magnetc_r, magnetc_r);
 	       translate([width - magnet_r - 2, height - magnetc_r - 2, 0])
-		    cylinder(magnetc_h, magnetc_r, magnetc_r);
+		    cylinder(thick, magnetc_r, magnetc_r);
 	       translate([magnet_r + 2, height - magnetc_r - 2, 0])
-		    cylinder(magnetc_h, magnetc_r, magnetc_r);
+		    cylinder(thick, magnetc_r, magnetc_r);
 	  };
 
 	  // magnet holes
 	  translate([magnet_r + 2, magnet_r + 2, -1])
-	       cylinder(magnetc_h, magnet_r, magnet_r);
+	       cylinder(thick, magnet_r, magnet_r);
 	  translate([width - magnet_r - 2, magnet_r + 2, -1])
-	       cylinder(magnetc_h, magnet_r, magnet_r);
+	       cylinder(thick, magnet_r, magnet_r);
 	  translate([width - magnet_r - 2, height - magnet_r - 2, -1])
-	       cylinder(magnetc_h, magnet_r, magnet_r);
+	       cylinder(thick, magnet_r, magnet_r);
 	  translate([magnet_r + 2, height - magnet_r - 2, -1])
-	       cylinder(magnetc_h, magnet_r, magnet_r);
+	       cylinder(thick, magnet_r, magnet_r);
      };
 }
 
