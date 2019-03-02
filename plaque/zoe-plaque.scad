@@ -2,7 +2,7 @@
 use <magnetic-plaque.scad>;
 
 
-plaque(width=100, height=50, rim=4, thick=4) {
+plaque(width=100, height=50, rim=4, thick=6, inset=1.5) {
 
      // title
      translate([45, 25, 0])
