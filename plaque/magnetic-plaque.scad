@@ -1,6 +1,6 @@
 
 
-module rounded_box(width, height, thickness, turn_r=4, $fn=100) {
+module rounded_box(width, height, thickness, turn_r=5.1, $fn=100) {
      turn_d = turn_r * 2;
 
      translate([turn_r, turn_r, 0]) {
@@ -31,41 +31,44 @@ module subtract_inset_same(width, height, rim, thick, inset) {
 }
 
 
-module plaque_base(width=30, height=20, rim=1, thick=2, inset=1, $fn=100) {
+module plaque_base(width=30, height=20, rim=1, thick=4, inset=1, $fn=100) {
 
      // magnet sizing
-     magnet_d = 8;  // mm diameter
-     magnet_h = 3;  // mm thickness
+     magnet_d = 8.5;  // mm diameter
+     magnet_h = 3.1;  // mm thickness
      magnet_r = magnet_d / 2;
 
-     magnetc_r = magnet_r + 0.5;
+     magnetc_h = 4;
+     magnetc_r = magnet_r + 1;
 
      difference() {
 	  union() {
-	       subtract_inset_same(width, height, rim, thick, inset) {
-		    render() rounded_box(width, height, thick);
+	       difference() {
+		    rounded_box(width, height, thick);
+		    translate([rim, rim, inset])
+			 cube([width - (2 * rim), height - (2 * rim), thick]);
 	       };
 
-	       // magnet holes
-	       translate([magnetc_r + 2, magnetc_r + 2, 0])
-		    cylinder(thick, magnetc_r, magnetc_r);
-	       translate([width - magnet_r - 2, magnetc_r + 2, 0])
-		    cylinder(thick, magnetc_r, magnetc_r);
-	       translate([width - magnet_r - 2, height - magnetc_r - 2, 0])
-		    cylinder(thick, magnetc_r, magnetc_r);
-	       translate([magnet_r + 2, height - magnetc_r - 2, 0])
-		    cylinder(thick, magnetc_r, magnetc_r);
+	       // magnet hole caps
+	       translate([magnetc_r + 1, magnetc_r + 1, 0])
+		    cylinder(magnetc_h, magnetc_r, magnetc_r);
+	       translate([width - magnet_r - 2, magnetc_r + 1, 0])
+		    cylinder(magnetc_h, magnetc_r, magnetc_r);
+	       translate([width - magnet_r - 2, height - magnetc_r - 1, 0])
+		    cylinder(magnetc_h, magnetc_r, magnetc_r);
+	       translate([magnet_r + 2, height - magnetc_r - 1, 0])
+		    cylinder(magnetc_h, magnetc_r, magnetc_r);
 	  };
 
 	  // magnet holes
 	  translate([magnet_r + 2, magnet_r + 2, -1])
-	       cylinder(thick, magnet_r, magnet_r);
+	       cylinder(magnet_h + 1, magnet_r, magnet_r);
 	  translate([width - magnet_r - 2, magnet_r + 2, -1])
-	       cylinder(thick, magnet_r, magnet_r);
+	       cylinder(magnet_h + 1, magnet_r, magnet_r);
 	  translate([width - magnet_r - 2, height - magnet_r - 2, -1])
-	       cylinder(thick, magnet_r, magnet_r);
+	       cylinder(magnet_h + 1, magnet_r, magnet_r);
 	  translate([magnet_r + 2, height - magnet_r - 2, -1])
-	       cylinder(thick, magnet_r, magnet_r);
+	       cylinder(magnet_h + 1, magnet_r, magnet_r);
      };
 }
 
@@ -77,10 +80,10 @@ module plaque(width=60, height=40, rim=6, thick=4, inset=1, $fn=100) {
      delt = (2 * rim) - 1;
 
      if ($children) {
-	  translate([offs, offs, thick - inset]) {
+	  translate([offs, offs, 0]) {
 	       intersection() {
-		    resize([width - delt, height - delt, inset])
-			 rounded_box(width, height, inset);
+		    cube([width - delt, height - delt, thick - 0.5]);
+		    // rounded_box(width - delt, height - delt, thick - 0.5);
 
 		    children();
 	       }
