@@ -28,7 +28,7 @@ module plaque_base(width=30, height=20, rim=1, thick=4, inset=1, $fn=50) {
 	  union() {
 	       difference() {
 		    rounded_box(width, height, thick);
-		    translate([rim, rim, inset]) {
+		    translate([rim, rim, thick - inset]) {
 			 cube([i_width, i_height, thick]);
 		    }
 	       };
