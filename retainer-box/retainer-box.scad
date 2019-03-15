@@ -24,8 +24,7 @@ module vol(width, depth, height) {
 	  translate([r - corner_r, corner_r, 0]) {
 	       cylinder(height, corner_r, corner_r);
 	  };
-     }
-
+     };
 }
 
 
@@ -39,12 +38,14 @@ module hollow_vol(width, depth, height, thick) {
 }
 
 
-module hinge_half(width, height, standoff, count=2) {
+module hinge_half(width, height, standoff, count=2, pin=0.5) {
      gap = 0.1;
 
      gwid = width - gap;
 
      locate = -(width + gap) * 2;
+
+     barrel_r = standoff - 0.5;
 
      start = ceil(count / -2) + 1;
      stop = floor(count / 2);
@@ -55,16 +56,18 @@ module hinge_half(width, height, standoff, count=2) {
 		    hull() {
 			 translate([gap, 0, height]) {
 			      rotate([0, 90, 0]) {
-				   cylinder(gwid, 1.5, 1.5);
+				   cylinder(gwid, barrel_r, barrel_r);
 			      };
 			 };
-			 translate([gap, standoff, height - 3]) {
+			 translate([gap, standoff, height - 4]) {
 			      cube([gwid, 1, 1]);
 			 };
 		    };
+
+		    // this is the connecting pin
 		    translate([-1, 0, height]) {
 			 rotate([0, 90, 0]) {
-			      cylinder(width + 2, 0.5, 0.5);
+			      cylinder(width + 2, pin, pin);
 			 };
 		    };
 	       };
@@ -108,7 +111,7 @@ module hinge_join(width, height, standoff, count) {
 	  rotate([0, 0, 180]) {
 	       difference() {
 		    children();
-		    translate([(overall / -2) + (width / 2), 0, 7]) {
+		    translate([(overall / -2) + (width / 2), 0, height]) {
 			 rotate([0, 90, 0]) {
 			      cylinder(overall - width, 0.75, 0.75);
 			 };
@@ -134,8 +137,14 @@ module hinge_split(x, y, z, gap) {
 
 module clasp_a() {
      union() {
-	  translate([0, 0, -2])
-	       cube([4, 2.5, 2], center=true);
+	  hull() {
+	       translate([0, 0, -2]) {
+		    cube([4, 2, 2], center=true);
+	       }
+	       translate([0, -1, -4]) {
+		    cube([4, 1, 1], center=true);
+	       }
+	  };
 
 	  difference() {
 	       cube([6, 1.5, 6], center=true);
@@ -145,7 +154,7 @@ module clasp_a() {
 	       }
 	       translate([0, 2, 1]) {
 		    rotate([90, 0, 0]) {
-			 cylinder(4, 1, 1);
+			 cylinder(4, 1.25, 1.25);
 		    };
 	       }
 	  }
@@ -162,7 +171,9 @@ module clasp_b() {
 
 union() {
      hinge_split(70, 52, 16, 2) {
-	  hollow_vol(66, 48, 12, 1);
+	  union() {
+	       hollow_vol(66, 48, 12, 1);
+	  };
      };
 
      // the height of the hinge needs to be half of the height of the
@@ -175,12 +186,22 @@ union() {
 	  cube([56, 1, 4]);
      };
 
-     translate([0, 52.5, 8]) {
-	  clasp_a();
+     translate([0, -51, 6]) {
+	  clasp_b();
      };
 
-     translate([0, -51, 7]) {
-	  clasp_b();
+     difference() {
+	  translate([0, 52.8, 9]) {
+	       clasp_a();
+	  };
+	  /*
+	  #translate([0, 0, 16])
+	  rotate([180, 0, 0]) {
+	       translate([0, -51, 6]) {
+		    clasp_b();
+	       };
+	  };
+	  */
      };
 }
 
