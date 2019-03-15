@@ -179,7 +179,7 @@ union() {
 	  clasp_a();
      };
 
-     translate([0, -51, 5.5]) {
+     translate([0, -51, 7]) {
 	  clasp_b();
      };
 }
