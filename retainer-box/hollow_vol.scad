@@ -1,6 +1,15 @@
 
 
-$fn = 100;
+module curvybits(angle, height, full_r, little_r, $fn=50) {
+     translate([0, 0, little_r])
+	  cylinder(height - (little_r * 2), full_r, full_r);
+
+     translate([0, 0, little_r])
+     rotate_extrude(angle=angle) {
+	  translate([full_r - little_r, 0])
+	       circle(little_r, $fn=20);
+     }
+}
 
 
 module _vol(width, depth, height) {
@@ -12,7 +21,8 @@ module _vol(width, depth, height) {
      hull() {
 	  translate([0, depth - r, 0])
 	  intersection() {
-	       cylinder(height, r, r);
+	       curvybits(180, height, r, 2, 100);
+	       // cylinder(height, r, r);
 	       translate([-r, 0, 0]) {
 		    cube([width, r, height]);
 	       }
@@ -20,10 +30,16 @@ module _vol(width, depth, height) {
 
 	  // rounded back corners
 	  translate([-r + corner_r, corner_r, 0]) {
-	       cylinder(height, corner_r, corner_r);
+	       rotate([0, 0, 180]) {
+		    curvybits(90, height, corner_r, 2, 50);
+	       };
+	       // cylinder(height, corner_r, corner_r);
 	  };
 	  translate([r - corner_r, corner_r, 0]) {
-	       cylinder(height, corner_r, corner_r);
+	       rotate([0, 0, -90]) {
+		    curvybits(90, height, corner_r, 2, 50);
+	       };
+	       // cylinder(height, corner_r, corner_r);
 	  };
      };
 }
@@ -60,10 +76,15 @@ module vol_split(x, y, z, gap) {
 
 
 module hollow_halves(width, depth, height, thick, y_gap=2) {
-     vol_split(width + y_gap, depth + y_gap, height + y_gap, y_gap) {
+     fudge = thick * 2;
+     vol_split(width + fudge, depth + fudge, height + fudge, y_gap) {
 	  hollow_vol(width, depth, height, thick);
      };
 }
+
+
+hollow_halves(80, 50, 10, 3);
+//curvybits(10, 40, 4);
 
 
 // The end.
