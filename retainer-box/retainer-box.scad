@@ -4,6 +4,8 @@ use <hollow_vol.scad>;
 
 use <hinges.scad>;
 
+use <clasp.scad>;
+
 
 module clasp_a($fn=50) {
      union() {
@@ -39,6 +41,12 @@ module clasp_b($fn=50) {
 }
 
 
+module dupli_rot() {
+     children();
+     rotate([0, 0, 180]) children();
+}
+
+
 module retainer_box() {
      hollow_halves(66, 48, 12, 1, 2);
      hinges(4, 8, 2, 4);
@@ -47,22 +55,11 @@ module retainer_box() {
 	  cube([56, 1, 4]);
      };
 
-     translate([0, -51, 6]) {
-	  clasp_b();
-     };
-
-     difference() {
-	  translate([0, 52.8, 9]) {
-	       clasp_a();
+     dupli_rot() {
+	  translate([0, -52.5, 7]) {
+	       rotate([90, 0, 0])
+		    clasp_half();
 	  };
-	  /*
-	  #translate([0, 0, 16])
-	  rotate([180, 0, 0]) {
-	  translate([0, -51, 6]) {
-	  clasp_b();
-	  };
-	  };
-	  */
      };
 }
 

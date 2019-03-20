@@ -1,9 +1,6 @@
 
 
-$fn = 100;
-
-
-module hinge_join(width, height, standoff, count) {
+module hinge_join(width, height, standoff, count, $fn=100) {
 
      overall = (width + 0.1) * count * 2;
 
@@ -30,7 +27,7 @@ module hinge_join(width, height, standoff, count) {
 }
 
 
-module hinge_half(width, height, standoff, count=2, pin=0.5) {
+module hinge_half(width, height, standoff, count=2, pin=0.5, $fn=100) {
      gap = 0.1;
 
      gwid = width - gap;
@@ -70,7 +67,7 @@ module hinge_half(width, height, standoff, count=2, pin=0.5) {
 
 
 module hinges(barrel_width=4, center_height=8,
-	      standoff=2, count=4, pin_r=0.5) {
+	      standoff=2, count=4, pin_r=0.5, $fn=100) {
 
      hinge_join(barrel_width, center_height, standoff, count) {
 	  hinge_half(barrel_width, center_height, standoff, count, pin_r);
