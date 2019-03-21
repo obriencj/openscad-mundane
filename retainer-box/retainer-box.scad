@@ -17,12 +17,12 @@ module duplicate(move_v=[0,0,0], rotate_v=[0,0,0]) {
 }
 
 
-module inwords(w, depth=1) {
+module inwords(label, depth=1) {
 
      translate([0, 0, -1]) {
 	  linear_extrude(depth + 1) {
 	       rotate([180, 0, 0]) {
-		    text("Beep",
+		    text(label,
 			 font="Liberation Sans:style=Bold",
 			 size=9, valign="center", halign="center");
 	       };
