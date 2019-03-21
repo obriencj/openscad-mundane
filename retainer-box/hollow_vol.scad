@@ -2,12 +2,12 @@
 
 module curvybits(angle, height, full_r, little_r, $fn=50) {
      translate([0, 0, little_r])
-	  cylinder(height - (little_r * 2), full_r, full_r);
+	  cylinder(height - (little_r * 2), full_r, full_r, $fn=100);
 
      translate([0, 0, little_r])
-     rotate_extrude(angle=angle) {
+     rotate_extrude(angle=angle, $fn=100) {
 	  translate([full_r - little_r, 0])
-	       circle(little_r, $fn=20);
+	       circle(little_r, $fn=50);
      }
 }
 
