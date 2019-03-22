@@ -1,22 +1,14 @@
 /*
+  author: Christopher O'Brien  <obriencj@gmail.com>
+  license: GNU LGPL v3+
+*/
 
- */
 
-
+use <../common/utils.scad>;
 use <../common/hinges.scad>;
 use <../common/clasp.scad>;
+use <clamshell.scad>;
 
-use <hollow_vol.scad>;
-
-
-module duplicate(move_v=[0,0,0], rotate_v=[0,0,0]) {
-     children();
-     translate(move_v) {
-	  rotate(rotate_v) {
-	       children();
-	  };
-     };
-}
 
 
 module inwords(label, depth=1) {
