@@ -1,10 +1,12 @@
+/*
 
+ */
+
+
+use <../common/hinges.scad>;
+use <../common/clasp.scad>;
 
 use <hollow_vol.scad>;
-
-use <hinges.scad>;
-
-use <clasp.scad>;
 
 
 module duplicate(move_v=[0,0,0], rotate_v=[0,0,0]) {
@@ -57,7 +59,7 @@ module retainer_box(i_width, i_depth, i_height, wall_thick=1.5) {
 
      // hinge height needs to be such that the center pin is aligned
      // to the top of the clamshell halves
-     hinges(hinge_barrel, half_height, gap / 2, hinge_count);
+     hinges(hinge_barrel, half_height, half_gap, hinge_count);
 
      // clasps need to be set on either far end, and then duplicated
      // to be on both halves
