@@ -1,20 +1,11 @@
+/*
+  author: Christopher O'Brien  <obriencj@gmail.com>
+  license: GPL v3
+*/
 
+
+use <../common/utils.scad>;
 use <magnetic-plaque.scad>;
-
-
-module words(txt_v, size=6, thick=5,
-	     font="Liberation Sans", style="Bold",
-	     halign="center", valign="center", $fn=100) {
-
-     linear_extrude(height=thick) {
-	  for(i = [0 : len(txt_v) - 1]) {
-	       translate([0, i * -(size + 2), 0])
-		    text(txt_v[i], size=size,
-			 font=str(font, ":style=", style),
-			 halign=halign, valign=valign);
-	  }
-     }
-}
 
 
 difference() {
