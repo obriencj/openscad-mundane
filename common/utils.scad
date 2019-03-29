@@ -1,6 +1,6 @@
 /*
   author: Christopher O'Brien  <obriencj@gmail.com>
-  license: GPL v3+
+  license: GPL v3
 */
 
 
@@ -25,6 +25,22 @@ module rounded_plate(width, height, thickness, turn_r=5.1, $fn=50) {
 		    circle(turn_r);
 	       };
 	  };
+     };
+}
+
+
+module words(txt_v, size=6, thick=5,
+             font="Liberation Sans", style="Bold",
+             halign="center", valign="center", $fn=50) {
+
+     fontstyle = str(font, ":style=", style);
+
+     linear_extrude(height=thick) {
+          for(i = [0 : len(txt_v) - 1]) {
+               translate([0, i * -(size + 2), 0])
+                    text(txt_v[i], size=size, font=fontstyle,
+                         halign=halign, valign=valign);
+          };
      };
 }
 
