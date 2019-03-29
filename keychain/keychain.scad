@@ -1,3 +1,10 @@
+/*
+  author: Christopher O'Brien  <obriencj@gmail.com>
+  license: GPL v3
+*/
+
+
+use <../common/utils.scad>;
 
 
 module border_inset(width, height, thick, inset, rim) {
@@ -21,42 +28,42 @@ module border_inset(width, height, thick, inset, rim) {
 }
 
 
-module keychain_base(width=60, height=30, thick=1.5, rim=2, $fn=50) {
+module keychain_base(width=60, height=30, thick=1.5, rim=2, $fn=80) {
+
+     bend_d = height;
+     bend_r = bend_d / 2;
 
      border_inset(width, height, thick, inset=0.25, rim=1) {
-	  hull() {
-	       translate([height / 2, height / 2, 0]) {
-		    cylinder(thick, height / 2, height / 2);
-	       };
-	       translate([width - (height / 2), height / 2, 0]) {
-		    cylinder(thick, height / 2, height / 2);
+	  translate([bend_r, bend_r, 0]) {
+	       linear_extrude(thick) {
+		    hull() {
+			 circle(bend_r);
+			 translate([width - bend_d, 0, 0]) {
+			      circle(bend_r);
+			 };
+		    };
 	       };
 	  };
      };
 }
 
-
-module conjoin(height, thickness) {
-     union() {
-	  translate([0, 0, thickness / 2]) {
-	       children();
-	  };
-	  translate([0, height, thickness / 2])
-	  rotate([180, 0, 0]) {
-	       children();
-	  };
-     };
-}
 
 
 module simple_keychain(width, height, thick, $fn=50) {
      hole_r = height / 8;
 
+     h_thick = thick / 2;
+
+     // this shifts the children along the X axis past the hole
+     child_offset = (width / 2) + hole_r;
+
      difference() {
-	  conjoin(height, thick) {
+	  double_sided(height, thick) {
 	       difference() {
-		    keychain_base(width, height, thick / 2);
-		    children();
+		    keychain_base(width, height, h_thick);
+		    translate([child_offset, height / 2, h_thick]) {
+			 children();
+		    };
 	       };
 	  };
 
@@ -64,26 +71,6 @@ module simple_keychain(width, height, thick, $fn=50) {
 	  translate([hole_r + 3, height / 2, -1]) {
 	       cylinder(thick + 2, hole_r, hole_r);
 	  };
-     };
-}
-
-
-module simpler_keychain(width, height, thick, $fn=50) {
-     hole_r = height / 8;
-
-     difference() {
-	  keychain_base(width, height, thick);
-
-	  duplimove(rot_v=[180, 0, 0]) {
-	       translate([width / 2, height / 2, thick]) {
-		    children();
-	       };
-	  };
-
-	  // poke a hole
-	  translate([holr_r + 3, height / 2, -1]) {
-	       cylinder(thick + 2, hole_r, hole_r);
-	  }
      };
 }
 

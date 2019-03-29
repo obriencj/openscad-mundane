@@ -14,6 +14,16 @@ module duplicate(move_v=[0,0,0], rotate_v=[0,0,0]) {
 }
 
 
+module double_sided(y_axis, thickness) {
+     translate([0, 0, thickness / 2]) {
+	  duplicate(move_v=[0, y_axis, 0],
+		    rotate_v=[180, 0, 0]) {
+	       children();
+	  };
+     };
+}
+
+
 module rounded_plate(width, height, thickness, turn_r=5.1, $fn=50) {
      turn_d = turn_r * 2;
 
