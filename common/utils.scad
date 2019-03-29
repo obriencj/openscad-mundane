@@ -4,7 +4,6 @@
 */
 
 
-
 module duplicate(move_v=[0,0,0], rotate_v=[0,0,0]) {
      children();
      translate(move_v) {
