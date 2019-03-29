@@ -1,14 +1,10 @@
+/*
+  author: Christopher O'Brien  <obriencj@gmail.com>
+  license: GNU LGPL v3+
+*/
 
 
-module rounded_box(width, height, thickness, turn_r=5.1, $fn=50) {
-     turn_d = turn_r * 2;
-
-     translate([turn_r, turn_r, 0])
-     minkowski() {
-	  cube([width - turn_d, height - turn_d, thickness - 1]);
-	  cylinder(1, turn_r, turn_r);
-     };
-}
+use <../common/utils.scad>;
 
 
 module plaque_base(width=30, height=20, rim=1, thick=4, inset=1, $fn=50) {
@@ -27,7 +23,7 @@ module plaque_base(width=30, height=20, rim=1, thick=4, inset=1, $fn=50) {
      difference() {
 	  union() {
 	       difference() {
-		    rounded_box(width, height, thick);
+		    rounded_plate(width, height, thick);
 		    translate([rim, rim, thick - inset]) {
 			 cube([i_width, i_height, thick]);
 		    }
@@ -67,8 +63,8 @@ module plaque(width=60, height=40, rim=6, thick=4, inset=1, $fn=50) {
 	  intersection() {
 	       cube([width - delt, height - delt, thick - 0.5]);
 	       translate([width / 2, height / 2, 0]) children();
-	  }
-     }
+	  };
+     };
 }
 
 
