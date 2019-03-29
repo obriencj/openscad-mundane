@@ -1,6 +1,6 @@
 
 
-module subtract_inset(width, height, thick, inset, rim) {
+module border_inset(width, height, thick, inset, rim) {
      difference() {
 	  children();
 
@@ -21,9 +21,9 @@ module subtract_inset(width, height, thick, inset, rim) {
 }
 
 
-module keychain_base(width=60, height=30, thick=1.5, rim=2, $fn=100) {
+module keychain_base(width=60, height=30, thick=1.5, rim=2, $fn=50) {
 
-     subtract_inset(width, height, thick, inset=0.25, rim=1) {
+     border_inset(width, height, thick, inset=0.25, rim=1) {
 	  hull() {
 	       translate([height / 2, height / 2, 0]) {
 		    cylinder(thick, height / 2, height / 2);
@@ -49,9 +49,8 @@ module conjoin(height, thickness) {
 }
 
 
-module simple_keychain(width, height, thick, $fn=100) {
-     hole_d = height / 4;
-     hole_r = hole_d / 2;
+module simple_keychain(width, height, thick, $fn=50) {
+     hole_r = height / 8;
 
      difference() {
 	  conjoin(height, thick) {
@@ -61,11 +60,33 @@ module simple_keychain(width, height, thick, $fn=100) {
 	       };
 	  };
 
+	  // poke a hole with a rim
 	  translate([hole_r + 3, height / 2, -1]) {
 	       cylinder(thick + 2, hole_r, hole_r);
 	  };
      };
 }
+
+
+module simpler_keychain(width, height, thick, $fn=50) {
+     hole_r = height / 8;
+
+     difference() {
+	  keychain_base(width, height, thick);
+
+	  duplimove(rot_v=[180, 0, 0]) {
+	       translate([width / 2, height / 2, thick]) {
+		    children();
+	       };
+	  };
+
+	  // poke a hole
+	  translate([holr_r + 3, height / 2, -1]) {
+	       cylinder(thick + 2, hole_r, hole_r);
+	  }
+     };
+}
+
 
 
 // The end.
