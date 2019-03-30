@@ -35,7 +35,7 @@ module retainer_box(i_width, i_depth, i_height, wall_thick=1.5) {
 
      // the half height will be the z offset needed for the hinge and
      // clasp features
-     half_height = e_height / 2;
+     half_height = (e_height / 2) + 0.1;
 
      // we're going to hard-code these settings for all retainer boxes
      gap = 4;

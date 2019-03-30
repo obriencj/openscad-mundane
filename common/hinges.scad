@@ -95,4 +95,12 @@ module hinges(barrel_width=4, center_height=8,
 }
 
 
+intersection() {
+     hinges(4, 10, 2, 4);
+
+     translate([-50, -50, 0])
+     cube([100, 100, 10]);
+};
+
+
 // The end.

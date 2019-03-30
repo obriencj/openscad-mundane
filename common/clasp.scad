@@ -1,7 +1,7 @@
-
-
-
-$fn = 50;
+/*
+  author: Christopher O'Brien <obriencj@gmail.com>
+  license: GPL v3
+*/
 
 
 module dupl_flip(spacing=0) {
@@ -11,16 +11,16 @@ module dupl_flip(spacing=0) {
 }
 
 
-module clasp_half() {
+module clasp_half($fn=50) {
      union() {
-	  translate([1.75, 1, 0]) {
+	  translate([1.5, 1.25, 0]) {
 	       hull() {
 		    cylinder(2, 2, 2);
-		    translate([1, -3, 0]) {
+		    translate([1, -2.5, 0]) {
 			 cylinder(1, 1, 1);
 		    };
 	       };
-	       translate([1, -3, -1]) {
+	       translate([1, -2.5, -1]) {
 		    cylinder(1, 1, 1);
 	       };
 	  };
