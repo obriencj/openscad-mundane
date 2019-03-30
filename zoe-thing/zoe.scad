@@ -1,100 +1,75 @@
-
-$fn = 50;
-
-// cylinder(5, 7, 2);
-
-
+/*
+  author: Christopher O'Brien <obriencj@gmail.com>
+  license: GPL v3
+*/
 
 
+use <../common/utils.scad>;
 
-//cylinder(3, 10, 10);
 
-module heart1() {
-	rotate([0, 0, 180]) {
-		rotate([0, 0, 45])
-		hull() {
-			cylinder(3, 10, 10);
+module heart(thick=3, $fn=50) {
+     linear_extrude(thick) {
+	  hull() {
+	       translate([-8, 5, 0])
+		    circle(10);
 
-			translate([-10, 0, 0]) {
-				cube([20, 20, 3]);
-			};
-		};
+	       translate([0, -15, 0])
+		    circle(2);
+	  };
 
-		translate([-14, 0, 0]) {
-			rotate([0, 0, -45]) {
-				hull() {
-					cylinder(3, 10, 10);
-					translate([-10, 0, 0]) {
-						cube([20, 20, 3]);
-					}
-				};
-			};
-		};
-	};
+	  hull() {
+	       translate([8, 5, 0])
+		    circle(10);
+
+	       translate([0, -15, 0])
+		    circle(2);
+	  };
+     };
 }
 
 
-module heart() {
-	hull() {
-		translate([-8, 5, 0])
-			cylinder(3, 10, 10);	
+module charm_heart(thick=3, inset=1, $fn=50) {
+     difference() {
+	  union() {
+	       difference() {
+		    resize([50, 0, 0], auto=[true, true, false]) {
+			 heart();
+		    };
 
-		translate([0, -15, 0])
-			cylinder(3, 2, 2);
-	}
+		    translate([0, 0, thick - inset]) {
+			 resize([45, 0, 0], auto=[true, true, false]) {
+			      heart();
+			 };
+		    };
+	       };
 
-	hull() {
-		translate([8, 5, 0])
-			cylinder(3, 10, 10);	
+	       translate([0, 9, 0]) {
+		    children();
+	       };
 
-		translate([0, -15, 0])
-			cylinder(3, 2, 2);
-	}
+	       // rim around the hole
+	       translate([-20, 11, 0]) {
+		    cylinder(thick, 3, 3);
+	       }
+	  };
+
+	  // poke a hole
+	  translate([-20, 11, -1]) {
+	       cylinder(thick + 2, 1.5, 1.5);
+	  };
+     };
 }
 
 
-module words() {
-
-linear_extrude(3) {
-text("owo", size=8, halign="center", valign="center",
-	font="Liberation Sans:style=Bold");
-
-translate([0, -7, 0])
-text("uwu", size=8, halign="center", valign="center",
-	font="Liberation Sans:style=Bold");
-
-translate([0, -14, 0])
-text("owo", size=8, halign="center", valign="center",
-	font="Liberation Sans:style=Bold");
-};
+module zoe_heart($fn=50) {
+     charm_heart() {
+	  words(["owo", "uwu", "owo"],
+		size=8, thick=3, spacing=8);
+     };
 }
 
 
-module work() {
-difference() {
-	resize([50, 0, 0], auto=[true, true, false]) {
-		heart();
-	}
+zoe_heart();
 
-	translate([0, 0, 2])
-	resize([45, 0, 0], auto=[true, true, false]) {
-		heart();
-	}
-};
-
-	translate([0, 9, 0])
-	words();
-}
-
-difference() {
-	union() {
-		work();
-		translate([-20, 11, 0])
-			cylinder(3, 3, 3);
-	};
-	translate([-20, 11, -1]) {
-		cylinder(5, 1.5, 1.5);
-	}
-}
 
 // The end.

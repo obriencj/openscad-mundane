@@ -38,15 +38,17 @@ module rounded_plate(width, height, thickness, turn_r=5.1, $fn=50) {
 }
 
 
-module words(txt_v, size=6, thick=5,
+module words(txt_v, size=6, thick=5, spacing=0,
              font="Liberation Sans", style="Bold",
              halign="center", valign="center", $fn=50) {
 
      fontstyle = str(font, ":style=", style);
 
+     lspacing = (spacing == 0)? size + 2: spacing;
+
      linear_extrude(height=thick) {
           for(i = [0 : len(txt_v) - 1]) {
-               translate([0, i * -(size + 2), 0])
+               translate([0, i * -lspacing, 0])
                     text(txt_v[i], size=size, font=fontstyle,
                          halign=halign, valign=valign);
           };
