@@ -60,7 +60,7 @@ module hinge_half(width, height, standoff, count=2, pin=0.5, $fn=50) {
 	       union() {
 		    // is is the body of the barrel and a slanted
 		    // segment that joins to the opposing parts
-		    hull() {
+		   hull() {
 			 translate([gap, 0, height]) {
 			      rotate([0, 90, 0]) {
 				   cylinder(gwid, barrel_r, barrel_r);
@@ -95,11 +95,13 @@ module hinges(barrel_width=4, center_height=8,
 }
 
 
-intersection() {
+difference() {
      hinges(4, 10, 2, 4);
 
-     translate([-50, -50, 0])
-     cube([100, 100, 10]);
+     // a little cut-away for debugging
+     #translate([0, -3, 10]) {
+	  cube([17, 6, 2]);
+     };
 };
 
 
