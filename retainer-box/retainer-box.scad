@@ -10,21 +10,6 @@ use <../common/clasp.scad>;
 use <clamshell.scad>;
 
 
-
-module inwords(label, depth=1) {
-
-     translate([0, 0, -1]) {
-	  linear_extrude(depth + 1) {
-	       rotate([180, 0, 0]) {
-		    text(label,
-			 font="Liberation Sans:style=Bold",
-			 size=9, valign="center", halign="center");
-	       };
-	  };
-     };
-}
-
-
 module retainer_box(i_width, i_depth, i_height, wall_thick=1.5) {
 
      // calculate the exterior dimensions based on the interior and
@@ -35,7 +20,7 @@ module retainer_box(i_width, i_depth, i_height, wall_thick=1.5) {
 
      // the half height will be the z offset needed for the hinge and
      // clasp features
-     half_height = (e_height / 2) + 0.1;
+     half_height = e_height / 2;
 
      // we're going to hard-code these settings for all retainer boxes
      gap = 4;
@@ -45,9 +30,8 @@ module retainer_box(i_width, i_depth, i_height, wall_thick=1.5) {
      half_gap = gap / 2;
 
      // create two clamshell halves mirroring each other
-     hollow_halves(i_width, i_depth, i_height,
-		   wall_thick, half_gap);
-
+     full_clamshell(i_width, i_depth, i_height,
+		    wall_thick, half_gap);
 
      // hinge height needs to be such that the center pin is aligned
      // to the top of the clamshell halves
@@ -67,37 +51,6 @@ module retainer_box(i_width, i_depth, i_height, wall_thick=1.5) {
 	  };
      };
 }
-
-
-module zoe_retainer() {
-     i_width = 66;
-     i_depth = 48;
-     i_height = 12;
-
-     wall_thick = 1.5;
-
-     text_inset = 1;
-
-     difference() {
-	  retainer_box(i_width, i_depth, i_height, wall_thick);
-
-	  // I asked her if she wanted it to have text, and she responded
-	  // "something like beep boop"
-
-	  translate([0, i_depth / 2, 0]) {
-	       inwords("Beep", text_inset);
-	  };
-
-	  rotate([0, 0, 180]) {
-	       translate([0, i_depth / 2, 0]) {
-		    inwords("Boop", text_inset);
-	       };
-	  };
-     };
-}
-
-
-zoe_retainer();
 
 
 // The end.

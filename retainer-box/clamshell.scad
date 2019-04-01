@@ -1,18 +1,41 @@
+/*
+  author: Christopher O'Brien <obriencj@gmail.com>
+  license: GPL v3
+*/
 
 
-module curvybits(angle, height, full_r, little_r, $fn=50) {
-     translate([0, 0, little_r])
-	  cylinder(height - (little_r * 2), full_r, full_r, $fn=100);
+use <../common/utils.scad>;
 
-     translate([0, 0, little_r])
-     rotate_extrude(angle=angle, $fn=100) {
-	  translate([full_r - little_r, 0])
-	       circle(little_r, $fn=50);
-     }
+
+module _curvybits(angle, height, full_r, little_r, $fn=50) {
+     translate([0, 0, height-1]) {
+	  linear_extrude(1) {
+	       circle(full_r);
+	  };
+     };
+
+     translate([0, 0, little_r]) {
+	  rotate_extrude(angle=angle, $fn=100) {
+	       translate([full_r - little_r, 0])
+		    circle(little_r, $fn=50);
+	  };
+     };
 }
 
 
-module _vol(width, depth, height) {
+module _subtract_interior(width, depth, height, thick) {
+     difference() {
+	  children();
+
+	  translate([0, thick, thick]) {
+	       resize([width, depth, height]) {
+		    children();
+	       };
+	  };
+     };
+}
+
+module _solid_vol(width, depth, height) {
 
      r = width / 2;
 
@@ -21,70 +44,46 @@ module _vol(width, depth, height) {
      hull() {
 	  translate([0, depth - r, 0])
 	  intersection() {
-	       curvybits(180, height, r, 2, 100);
-	       // cylinder(height, r, r);
 	       translate([-r, 0, 0]) {
 		    cube([width, r, height]);
 	       }
+
+	       _curvybits(180, height, r, 2, 100);
 	  };
 
 	  // rounded back corners
 	  translate([-r + corner_r, corner_r, 0]) {
 	       rotate([0, 0, 180]) {
-		    curvybits(90, height, corner_r, 2, 50);
+		    _curvybits(90, height, corner_r, 2, 50);
 	       };
-	       // cylinder(height, corner_r, corner_r);
 	  };
 	  translate([r - corner_r, corner_r, 0]) {
 	       rotate([0, 0, -90]) {
-		    curvybits(90, height, corner_r, 2, 50);
+		    _curvybits(90, height, corner_r, 2, 50);
 	       };
-	       // cylinder(height, corner_r, corner_r);
 	  };
      };
 }
 
 
-module hollow_vol(width, depth, height, thick) {
+module half_clamshell(width, depth, height, thick) {
      dthick = thick * 2;
-     difference() {
-	  _vol(width + dthick, depth + dthick, height + dthick);
-	  translate([0, thick, thick])
-	       _vol(width, depth, height);
-     }
-}
 
-
-
-module dupli_rot(rotv) {
-     children();
-     rotate(rotv) children();
-}
-
-
-module vol_split(x, y, z, gap) {
-     dupli_rot([0, 0, 180]) {
-	  translate([0, gap, 0]) {
-	       intersection() {
-		    translate([x / -2, 0, 0])
-			 cube([x, y, z / 2]);
-		    union() children();
-	       }
-	  }
-     }
-}
-
-
-module hollow_halves(width, depth, height, thick, y_gap=2) {
-     fudge = thick * 2;
-     vol_split(width + fudge, depth + fudge, height + fudge, y_gap) {
-	  hollow_vol(width, depth, height, thick);
+     _subtract_interior(width, depth, height + 1, thick) {
+	  _solid_vol(width + dthick, depth + dthick, height + thick);
      };
 }
 
 
-hollow_halves(80, 50, 10, 3);
-//curvybits(10, 40, 4);
+module full_clamshell(width, depth, height, thick, y_gap=2) {
+     duplicate(rotate_v=[0, 0, 180]) {
+	  translate([0, y_gap, 0]) {
+	       half_clamshell(width, depth, height / 2, thick);
+	  };
+     };
+}
+
+full_clamshell(80, 50, 14, 3);
 
 
 // The end.
