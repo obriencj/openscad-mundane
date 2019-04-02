@@ -34,7 +34,7 @@ module zoe_retainer() {
      // dimensions to become the exterior dimensions
      wall_thick = 1.5;
 
-     text_inset = 1;
+     text_inset = 0.5;
 
      difference() {
 	  retainer_box(i_width, i_depth, i_height, wall_thick);
