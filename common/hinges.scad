@@ -4,13 +4,12 @@
 */
 
 
-module hinge_join(width, height, standoff, count, pin=0.5, $fn=50) {
-
-     gap = 0.1;
+module hinge_join(width, height, standoff, count, pin=0.5,
+		  gap=0.1, pin_gap=0.25, $fn=50) {
 
      // this is the bore of the hinge barrels, based on the pin size
      // plus a tiny bit extra
-     pin_gap = pin + gap;
+     bore_r = pin + pin_gap;
 
      overall = (width + gap) * count * 2;
 
@@ -28,9 +27,10 @@ module hinge_join(width, height, standoff, count, pin=0.5, $fn=50) {
 	       rotate([0, 0, 180]) {
 		    difference() {
 			 children();
-			 translate([(overall / -2) + (width / 2), 0, height]) {
+			 #translate([(overall / -2) + (width / 2), 0,
+				     height - 0]) {
 			      rotate([0, 90, 0]) {
-				   cylinder(overall - width, pin_gap, pin_gap);
+				   cylinder(overall - width, bore_r, bore_r);
 			      };
 			 };
 		    };
@@ -40,11 +40,8 @@ module hinge_join(width, height, standoff, count, pin=0.5, $fn=50) {
 }
 
 
-module hinge_half(width, height, standoff, count=2, pin=0.5, $fn=50) {
-
-     // the gap is the space between the barrels, preventing them from
-     // merging into a single solid object
-     gap = 0.1;
+module hinge_half(width, height, standoff, count=2, pin=0.5,
+		  gap=0.1, $fn=50) {
 
      gwid = width - gap;
 
@@ -99,7 +96,7 @@ difference() {
      hinges(4, 10, 2, 4);
 
      // a little cut-away for debugging
-     #translate([0, -3, 10]) {
+     translate([0, -3, 10]) {
 	  cube([17, 6, 2]);
      };
 };
