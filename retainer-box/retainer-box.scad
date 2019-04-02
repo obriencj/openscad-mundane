@@ -53,4 +53,8 @@ module retainer_box(i_width, i_depth, i_height, wall_thick=1.5) {
 }
 
 
+translate([0, 0, -10])
+retainer_box(50, 40, 16, 2);
+
+
 // The end.
