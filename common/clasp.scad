@@ -8,8 +8,8 @@ module clasp_half($fn=50) {
 
      // this is the primary positioning translation, tweak this for
      // better clasping action.
-     tweak_x = 1.80;
-     tweak_y = 0.82;
+     tweak_x = 1.6;
+     tweak_y = 1.15;
 
      union() {
 	  translate([tweak_x, tweak_y, 0]) {
