@@ -1,37 +1,54 @@
+/*
+  author: Christopher O'Brien  <obriencj@gmail.com>
+  license: GNU LGPL v3+
+*/
 
 
-module kirb(dia=8) {
-     resize([dia * 2, 0, 0], auto=true) {
+module kirb(r=8) {
+     resize([r * 2, 0, 0], auto=true) {
 	  import("kirb-face.stl");
      };
 }
 
 
-module kirb_coin(dia=18, $fn=50) {
+module kirb_coin(r=18, $fn=50) {
 
      union() {
 	  difference() {
-	       cylinder(4, dia, dia, $fn=50);
-	       translate([0, 0, 2])
-		    cylinder(4, dia-2, dia-2, $fn=50);
+	       // flat cylinder
+	       cylinder(4, r=r, $fn=50);
+
+	       // subtract to get an inset (leaving a rim)
+	       translate([0, 0, 2]) {
+		    cylinder(4, r=r-2, $fn=50);
+	       }
 	  };
-	  translate([0, -2, 0])
-	       kirb(dia - 6);
-     }
+
+	  // glue the face to it
+	  translate([0, -2, 0]) {
+	       kirb(r - 6);
+	  };
+     };
 }
 
 
-module kirb_keychain(dia=18, $fn=50) {
+module kirb_keychain(r=18, $fn=50) {
 
      difference() {
 	  union() {
-	       kirb_coin(dia, $fn);
-	       translate([0, 15, 0])
-		    cylinder(4, 3, 3);
+	       // take the coin, then...
+	       kirb_coin(r, $fn);
+
+	       // add a reinforcing ring, then...
+	       translate([0, 15, 0]) {
+		    cylinder(4, r=3);
+	       };
 	  };
 
-	  translate([0, 15, -1])
-	       cylinder(6, 2, 2);
+	  // poke a hole
+	  translate([0, 15, -1]) {
+	       cylinder(6, r=2);
+	  };
      };
 }
 
