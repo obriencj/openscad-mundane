@@ -6,7 +6,7 @@
 
 use <../common/utils.scad>;
 use <../common/hinges.scad>;
-use <../common/clasp.scad>;
+use <../common/clasp2.scad>;
 use <clamshell.scad>;
 
 
