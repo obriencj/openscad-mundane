@@ -48,21 +48,14 @@ module clasp_half($fn=50) {
 		    };
 
 		    // the negative space for the lip to get caught in
-		    hull() {
-			 translate([-4.5, -0.5, 0]) {
-			      rotate([90, 0, 90]) {
-				   cylinder(9, 0.6, 0.6);
-			      };
-			 };
-			 translate([-4.5, -0.7, 0]) {
-			      rotate([90, 0, 90]) {
-				   cylinder(9, 0.6, 0.6);
-			      };
+		    translate([-4.5, -0.5, 0]) {
+			 rotate([90, 0, 90]) {
+			      cylinder(9, 0.6, 0.6);
 			 };
 		    };
 
 		    // a bit of space to make it easier
-		    translate([-1.5, -1, -0.7]) {
+		    translate([-1.5, -0.5, -0.6]) {
 			 cube([5, 4, 1]);
 		    };
 	       };
