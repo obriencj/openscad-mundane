@@ -3,8 +3,8 @@
 
 module adapter_grommet(filament_r=1.5) {
 
-     grommet_id = 6.1;
-     grommet_thick = 3.5;
+     grommet_id = 6;
+     grommet_thick = 3.6;
 
      pin_length = grommet_thick;
 
@@ -32,7 +32,10 @@ module adapter_grommet(filament_r=1.5) {
 	       };
 	  };
 
-	  cylinder(pin_length + 1, filament_r, pin_or - 0.75);
+	  cylinder(pin_length + 1, r=filament_r);
+	  translate([0, 0, pin_length - 1]) {
+	       cylinder(2, filament_r, pin_or - 0.5);
+	  };
      };
 }
 
