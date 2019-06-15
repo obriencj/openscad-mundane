@@ -60,7 +60,7 @@ module flat_clip(loop_r, thick_r, z_goof=0) {
 
 
 // these dimensions work pretty well for keeping a tshirt clipped up.
-flat_clip(35, 4, 2);
+flat_clip(30, 4, 3);
 
 
 // The end.
