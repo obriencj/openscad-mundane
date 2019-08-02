@@ -4,7 +4,7 @@
 */
 
 
-use <magnetic-retainer-box.scad>;
+use <retainer-box.scad>;
 
 
 module inwords(label, depth=1) {

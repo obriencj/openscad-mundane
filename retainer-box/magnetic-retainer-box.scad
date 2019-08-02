@@ -6,11 +6,20 @@
 
 use <../common/utils.scad>;
 use <../common/hinges.scad>;
-use <../common/clasp2.scad>;
 use <clamshell.scad>;
 
 
-module retainer_box(i_width, i_depth, i_height, wall_thick=1.5, chamfer=4) {
+module magnet_clasp(magnet_dia, magnet_thick, height, $fn=50) {
+     difference() {
+	  cylinder(r=magnet_dia+1, height);
+	  translate([0, 0, height - magnet_thick]) {
+	       cylinder(r=magnet_dia + 0.1, magnet_thick + 1);
+	  };
+     };
+}
+
+
+module retainer_box(i_width, i_depth, i_height, wall_thick=1.5) {
 
      // calculate the exterior dimensions based on the interior and
      // thickness
@@ -31,23 +40,17 @@ module retainer_box(i_width, i_depth, i_height, wall_thick=1.5, chamfer=4) {
 
      // create two clamshell halves mirroring each other
      full_clamshell(i_width, i_depth, i_height,
-		    wall_thick, half_gap, chamfer);
+		    wall_thick, half_gap);
 
      // hinge height needs to be such that the center pin is aligned
      // to the top of the clamshell halves
-     hinges(hinge_barrel, half_height, half_gap, hinge_count);
+     hinges(hinge_barrel, half_height + 0.1, half_gap, hinge_count);
 
-     // clasps need to be set on either far end, and then duplicated
-     // to be on both halves
 
-     // I like the feature of the clasp base to be visible, so I'm
-     // pushing it out slightly
-     clasp_fudge = 0.3;
-
+     // set the magnet somewhere where it won't be in the way
      duplicate(rotate_v=[0, 0, 180]) {
-	  translate([0, e_depth + half_gap + clasp_fudge, half_height]) {
-	       rotate([90, 0, 180])
-		    clasp_half();
+	  translate([0, gap + wall_thick + 0.5, wall_thick]) {
+	       magnet_clasp(2, 4, (half_height - wall_thick) - 0.1);
 	  };
      };
 }
