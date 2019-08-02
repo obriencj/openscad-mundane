@@ -10,7 +10,7 @@ module adapter_grommet(filament_r=1.5) {
 
      pin_or = grommet_id / 2;
      pin_ir = pin_or - 1.5;
-     bump_or = pin_or + 0.25;
+     bump_or = pin_or + 0.3;
 
      $fn = 50;
 
