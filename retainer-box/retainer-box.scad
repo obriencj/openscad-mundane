@@ -35,15 +35,14 @@ module retainer_box(i_width, i_depth, i_height, wall_thick=1.5, chamfer=4) {
 
      // hinge height needs to be such that the center pin is aligned
      // to the top of the clamshell halves
-     hinges(hinge_barrel, half_height, half_gap, hinge_count);
-
-     // clasps need to be set on either far end, and then duplicated
-     // to be on both halves
+     hinges(hinge_barrel, half_height + 0.1, half_gap, hinge_count);
 
      // I like the feature of the clasp base to be visible, so I'm
      // pushing it out slightly
      clasp_fudge = 0.3;
 
+     // clasps need to be set on either far end, and then duplicated
+     // to be on both halves
      duplicate(rotate_v=[0, 0, 180]) {
 	  translate([0, e_depth + half_gap + clasp_fudge, half_height]) {
 	       rotate([90, 0, 180])
@@ -54,7 +53,7 @@ module retainer_box(i_width, i_depth, i_height, wall_thick=1.5, chamfer=4) {
 
 
 translate([0, 0, -10])
-retainer_box(50, 40, 16, 2);
+retainer_box(50, 40, 16, 2, 4);
 
 
 // The end.

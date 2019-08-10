@@ -4,7 +4,7 @@
 */
 
 
-use <retainer-box.scad>;
+use <magnetic-retainer-box.scad>;
 
 
 module inwords(label, depth=1) {
@@ -37,7 +37,8 @@ module zoe_retainer() {
      text_inset = 0.5;
 
      difference() {
-	  retainer_box(i_width, i_depth, i_height, wall_thick);
+	  retainer_box(i_width, i_depth, i_height,
+		       wall_thick=2.0, magnet_spacing=16);
 
 	  // I asked Zoe if she wanted it to have text, and she
 	  // responded "something like beep boop" So we'll inset that
