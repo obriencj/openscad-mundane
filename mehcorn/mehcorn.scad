@@ -13,9 +13,10 @@ use <threads.scad>;
 
 
 module freecorn_threads(radius, internal=0) {
-     metric_thread(radius * 2, 2, 5,
+     h = (internal == 1) ? 5.5: 5;
+     metric_thread(radius * 2, 2, h,
 		   angle=45,
-		   n_starts=2, leadin=1,
+		   n_starts=2, leadin=1, taper=0.5,
 		   internal=internal);
 }
 
@@ -61,7 +62,7 @@ module acorn_nut(height, width, thick) {
 module threaded_acorn_nut(height, width, thick) {
 
      r = width / 2;
-     tr = (width - thick) / 2;
+     tr = (width - 1) / 2;
 
      difference() {
 	  union() {
@@ -130,7 +131,7 @@ module acorn_hat(height, width, thick, $fn=100) {
 module threaded_acorn_hat(height, width, thick, $fn=100) {
 
      r = width / 2;
-     tr = (width - thick) / 2;
+     tr = (width - 1) / 2;
 
      difference() {
 	  acorn_hat(height, width, thick);
