@@ -13,10 +13,12 @@ use <threads.scad>;
 
 
 module freecorn_threads(radius, internal=0) {
-     h = (internal == 1) ? 5.5: 5;
-     metric_thread(radius * 2, 2, h,
-		   angle=45,
-		   n_starts=2, leadin=1, taper=0.5,
+     l = internal? 1: 0;
+     t = internal? 0: 0.1;
+     r = internal? radius + 0.1: radius;
+     metric_thread(radius * 2, 2, 5,
+		   angle=50,
+		   n_starts=2, leadin=l, taper=t,
 		   internal=internal);
 }
 
