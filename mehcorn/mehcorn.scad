@@ -156,53 +156,24 @@ module pretty_threaded_acorn_hat(width, thick=2) {
 }
 
 
-/* // -- old stuff
-
-module threaded_acorn(height, width, ratio, thick=2) {
+module pretty_threaded_acorn_keychain_hat(width, thick=2) {
+     height = width / pretty_hat_factor();
 
      difference() {
-	  union() {
-	       translate([0, 0, 5]) {
-		    acorn_nut(height, ratio);
-		    rotate([0, 180, 0]) {
-			 freecorn_threads(width, 0);
+	  threaded_acorn_hat(height, width, thick);
+
+	  translate([0, 0, height+2.5]) {
+	       rotate([-90, 0, 0]) {
+		    rotate_extrude(angle=360, $fn=100) {
+			 translate([4, 0]) circle(1.5, $fn=100);
 		    };
 	       };
 	  };
-
-	  translate([0, 0, -0.5]) {
-	       cylinder(9, r=(width - thick - 0.5), $fn=100);
-	  };
      };
 }
 
 
-module threaded_hat(width, ratio, thick=2) {
-
-     difference() {
-	  acorn_hat(width + thick, ratio, 2);
-	  translate([0, 0, -0.5])
-	       cylinder(1, r=width, $fn=100);
-	  translate([0, 0, 0.5])
-	       freecorn_threads(width, 1);
-     };
-}
-
-
-module threaded_freecorn(height=30, ratio=0.65, thick=2) {
-
-     width = (height * ratio);
-
-     translate([width * 2.2, 0, 0]) {
-	  threaded_acorn(height, width, 0.65, thick);
-     };
-
-     threaded_hat(width, 0.4, thick);
-}
-
-// -- old stuff
-*/
-
+/* --- acorn combined --- */
 
 
 module pretty_threaded_acorn(width) {
@@ -213,7 +184,15 @@ module pretty_threaded_acorn(width) {
 }
 
 
-pretty_threaded_acorn(30);
+module pretty_threaded_acorn_keychain(width) {
+     pretty_threaded_acorn_keychain_hat(width);
+
+     translate([width + 10, 0, 0])
+	  pretty_threaded_acorn_nut(width);
+}
+
+
+pretty_threaded_acorn_keychain(30);
 
 
 // The end.
