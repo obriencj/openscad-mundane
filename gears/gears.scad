@@ -65,7 +65,7 @@ module 2d_gear(modul, teeth, pressure=20, helix=0) {
      root_d = gear_d - 2 * (modul + clearance);
      root_r = root_d / 2;
 
-     circle(root_r, $fn=100);
+     circle(root_r, $fa=1, $fs=modul);
 
      copy_rotate(z=360 / teeth, copies=teeth) {
 	  _2d_gear_tooth(modul, teeth, pressure, helix);
@@ -98,7 +98,7 @@ module herringbone_gear(modul, teeth, width, pressure=20, helix=30) {
 }
 
 
-herringbone_gear(2, 24, 20);
+herringbone_gear(1.5, 24, 20);
 
 
 // The end.
