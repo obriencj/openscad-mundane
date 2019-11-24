@@ -30,6 +30,7 @@ function _eng_std_keysizes() =
 function _minmax_key_recur(val, index, table) =
      let(curr = table[index],
 	 next = table[index + 1])
+     echo("curr", curr, "next", next)
      ((curr[0] <= val) && (val < next[0]))? curr[1]:
      _minmax_key_recur(val, index + 1, table);
 
@@ -40,7 +41,7 @@ function eng_std_keysize(bore_d_inches) =
      0;
 
 
-function inch_to_mm(x) = x * 39.37;
+function inch_to_mm(x) = x * 25.4;
 function vec_inch_to_mm(v) = [for(x=v) inch_to_mm(x)];
 
 
@@ -66,10 +67,17 @@ module _2d_cutout(thick, position, overshoot=0.05) {
 }
 
 
-module _bore(r, k) {
+module _bore(r, k, keygap=0.25) {
+     // The the square key dimension k describes the height and width
+     // of the key itself. While the width should match for the bore,
+     // the height should have some "wiggle room." That value is the
+     // keygap parameter.
+
+     echo("bore: r=", r, "k=", k);
+
      circle(r, $fa=1, $fs=1);
      if(k) {
-	  translate([0, r]) {
+	  translate([0, r + keygap]) {
 	       square([k, k], true);
 	  };
      };
