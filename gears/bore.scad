@@ -12,7 +12,7 @@
   [[min diameter in inches, key width in inches], ...]
 */
 function _eng_std_keysizes() =
-     [[0, 0],
+     [[-1/0, 0],
       [5/16, 3/32],
       [1/2, 1/8],
       [5/8, 3/16],
