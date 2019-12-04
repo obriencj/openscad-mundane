@@ -44,13 +44,16 @@ function involute_points(modul, teeth, pressure=20, helix=0) =
 
 	 phi_a = degrees(tan(rho_base) - radians(rho_base)),
 	 tooth_width = (180 * 0.95) / teeth + 2 * phi_a,
+	 tw = tooth_width / 2,
 
-	 rho_step = rho_tip / 16)
+	 steps = 16 * ceil(modul),
+	 rho_step = rho_tip / steps)
+
 	 concat([[0, 0]],
-		[for(i = [0:rho_step:rho_tip])
-			  involute_point(base_r, i)],
-		[for(i = [rho_tip:-rho_step:0])
-			  involute_point(base_r, i, tooth_width)]);
+		[for(i = [0:1:steps])
+			  involute_point(base_r, i * rho_step, tw)],
+		[for(i = [-steps:1:0])
+			  involute_point(base_r, i * rho_step, -tw)]);
 
 
 module _2d_gear_tooth(modul, teeth, pressure=20, helix=0) {
@@ -65,9 +68,9 @@ module 2d_gear(modul, teeth, pressure=20, helix=0) {
      root_d = gear_d - 2 * (modul + clearance);
      root_r = root_d / 2;
 
-     circle(root_r, $fa=1, $fs=modul);
+     circle(root_r, $fa=1, $fs=modul/2);
 
-     copy_rotate(z=360 / teeth, copies=teeth) {
+     copy_rotate(z=360 / teeth, copies=teeth-1) {
 	  _2d_gear_tooth(modul, teeth, pressure, helix);
      };
 }
