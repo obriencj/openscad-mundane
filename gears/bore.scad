@@ -30,7 +30,6 @@ function _eng_std_keysizes() =
 function _minmax_key_recur(val, index, table) =
      let(curr = table[index],
 	 next = table[index + 1])
-     echo("curr", curr, "next", next)
      ((curr[0] <= val) && (val < next[0]))? curr[1]:
      _minmax_key_recur(val, index + 1, table);
 
@@ -73,7 +72,7 @@ module _bore(r, k, keygap=0.25) {
      // the height should have some "wiggle room." That value is the
      // keygap parameter.
 
-     echo("bore: r=", r, "k=", k);
+     //echo("bore: r=", r, "k=", k);
 
      circle(r, $fa=1, $fs=1);
      if(k) {
