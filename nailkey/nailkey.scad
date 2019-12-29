@@ -67,11 +67,16 @@ module nailkey($fn=50) {
 }
 
 
+module nailkey_block() {
 // demo piece, printed face-down. Very useful for gluing into objects,
 // just leave a 30 x 18 space and then glue this block into it.
-with_nailkey(rot=[180, 0, 0], pos=[0, 0, 1]) {
-     cube([30, 18, 6], true);
-}
+     with_nailkey(rot=[180, 0, 0], pos=[0, 0, 1]) {
+	  cube([28, 14, 6], true);
+     }
+};
+
+
+nailkey_block();
 
 
 // The end.
