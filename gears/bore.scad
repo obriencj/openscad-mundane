@@ -43,6 +43,8 @@ function eng_std_keysize(bore_d_inches) =
 function inch_to_mm(x) = x * 25.4;
 function vec_inch_to_mm(v) = [for(x=v) inch_to_mm(x)];
 
+function mm_to_inch(x) = x / 25.4;
+
 
 module _2d_cutout(thick, position, overshoot=0.05) {
 
