@@ -1,19 +1,17 @@
 
 
-module divider(x, y, tall, thick=1, $fn=100) {
+module divider(x, y, tall, thick=1, r=5, $fn=100) {
 
-     dt = thick * 2;
-
-     minkr = thick * 5;
-     minkx = x - dt - (2 * minkr);
-     minky = y - dt - (2 * minkr);
+     minkx = x - (2 * thick) - (2 * r);
+     minky = y - (2 * thick) - (2 * r);
+     minko = r + thick;
 
      difference() {
 	  cube([x, y, tall]);
 
-	  translate([minkr + thick, minkr + thick, minkr + thick]) {
+	  translate([minko, minko, minko]) {
 	       minkowski() {
-		    sphere(minkr);
+		    sphere(r);
 		    cube([minkx, minky, tall]);
 	       };
 	  };
@@ -21,26 +19,36 @@ module divider(x, y, tall, thick=1, $fn=100) {
 }
 
 
-module full_divider() {
-     divider(190, 100, 80);
+module single_divider(xy=100, tall=75) {
+     divider(xy, xy, tall);
 };
 
 
-module half_divider() {
-     divider(95, 100, 80);
+module double_divider(xy=100, tall=75) {
+     divider(xy * 2, xy, tall);
 };
 
 
-module side_divider() {
-     divider(95, 200, 80);
+module quad_divider(xy=100, tall=75) {
+     divider(xy * 2, xy * 2, tall);
 };
 
 
+module all_dividers(xy=100, tall=75) {
+     /*
+       All three dividers, layed out such that there's a 10mm gap
+       between.
+      */
 
-translate([-95, -100, 0]) full_divider();
-translate([-100, 10, 0]) half_divider();
-translate([-100, 120, 0]) half_divider();
-translate([5, 10, 0]) side_divider();
+     xyo = xy + 10;
+
+     double_divider(xy, tall);
+     translate([-xyo, 0, 0]) single_divider(xy, tall);
+     translate([0, xyo, 0]) quad_divider(xy, tall);
+};
+
+
+all_dividers();
 
 
 // The end.
