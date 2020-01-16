@@ -3,7 +3,7 @@
 use <divider.scad>;
 
 
-all_dividers(xy=95, tall=70);
+all_dividers(xy=95, tall=60);
 
 
 // The end.
