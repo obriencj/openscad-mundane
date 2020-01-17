@@ -1,3 +1,10 @@
+/*
+  A filter retainer and cover for my grandfather's roto-tiller, plus
+  an optional airbox to go over it.
+
+  author: Christopher O'Brien  <obriencj@gmail.com>
+  license: GPL v.3
+*/
 
 
 module cutout_pattern(dims, r=1.5, $fn=6) {
@@ -5,6 +12,8 @@ module cutout_pattern(dims, r=1.5, $fn=6) {
      limit_y = dims.y / 2;
 
      step = (r * 2) + 1;
+
+     // this isn't the greatest honeycomb I've ever done but it works.
 
      linear_extrude(dims.z) {
 	  intersection() {
@@ -73,12 +82,15 @@ module filter_cover(thick=4, $fn=50) {
 		    thick + 2];
 
      difference() {
+	  // start from the plate
 	  filter_plate(thick);
 
+	  // pop out the honeycomb holes
 	  translate([0, 0, -1]) {
 	       cutout_pattern(cutout_dims);
 	  };
 
+	  // and cut away so that the honeycomb is inset
 	  translate([0, 0, (thick / 2) + lip_thick]) {
 	       cube(ridge_dims, true);
 	  };
@@ -103,6 +115,7 @@ module filter_airbox(thick=2, $fn=50) {
      inlet_o = (box_dims.y / 2) - minkd - inlet_r;
 
      difference() {
+	  // start from plate plus airbox exterior
 	  union() {
 	       filter_plate(thick);
 	       translate([-minkx / 2, -minky / 2, 0]) {
@@ -113,6 +126,7 @@ module filter_airbox(thick=2, $fn=50) {
 	       };
 	  };
 
+	  // minus the airbox interior
 	  translate([-iminkx / 2, -iminky / 2, 0]) {
 	       minkowski() {
 		    sphere(iminkr);
@@ -120,10 +134,12 @@ module filter_airbox(thick=2, $fn=50) {
 	       };
 	  };
 
+	  // trim off everything below the plate
 	  translate([0, 0, -minkr]) {
 	       cube([box_dims.x + 1, box_dims.y + 1, minkd], true);
 	  };
 
+	  // pop an oblong hole out of the side
 	  translate([0, -box_dims.y / 2, (box_dims.z / 2)]) {
 	       rotate([90, 0, 0]) {
 		    hull() {
