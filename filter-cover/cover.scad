@@ -37,6 +37,11 @@ module cutout_pattern(dims, r=1.5, $fn=6) {
 
 
 module filter_plate(thick, $fn=50) {
+     /*
+       The base plate for the filter and airbox -- has the location of
+       the mounting screws and the intake cutout.
+     */
+
 
      outer_dims = [87, 69, thick];
 
@@ -71,6 +76,11 @@ module filter_plate(thick, $fn=50) {
 
 
 module filter_cover(thick=4, $fn=50) {
+     /*
+       Replacement filter cover for a roto-tiller. Simply a plate with
+       holes in it, meant to keep the filter foam in place and prevent
+       large objects from knocking it askew.
+      */
 
      lip = 2;
      lip_thick = 2;
@@ -99,6 +109,16 @@ module filter_cover(thick=4, $fn=50) {
 
 
 module filter_airbox(thick=2, $fn=50) {
+     /*
+       An optional, additional stack-on cover to act as a sort-of tiny
+       airbox that limits direct exposure of the cover to the
+       environment. It has a single wide opening at the bottom to
+       allow airflow to the filter. This may or may not be of any
+       actual benefit, so it's more of an experimental addition than
+       anything else (hence being a separate component that can be
+       omitted easily).
+      */
+
      box_dims = [62, 69, 20];
 
      minkr = 6;
