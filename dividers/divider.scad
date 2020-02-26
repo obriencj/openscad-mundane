@@ -1,6 +1,14 @@
+/*
+  author: Christopher O'Brien  <obriencj@gmail.com>
+  license: GPL v3
+*/
 
 
 module divider(x, y, tall, thick=1, r=5, $fn=100) {
+     /*
+       an individual divider box, defined by its exterior
+       dimensions
+     */
 
      minkx = x - (2 * thick) - (2 * r);
      minky = y - (2 * thick) - (2 * r);
@@ -36,9 +44,9 @@ module quad_divider(xy=100, tall=75) {
 
 module all_dividers(xy=100, tall=75) {
      /*
-       All three dividers, layed out such that there's a 10mm gap
-       between.
-      */
+       All three dividers, layed out such that there's a gap between
+       for splitting in the slicer.
+     */
 
      xyo = xy + 10;
 
