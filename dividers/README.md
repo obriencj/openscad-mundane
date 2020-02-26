@@ -18,3 +18,12 @@ need to store.
 
 On my Prusa i3 MK3s, using 0.3mm layers and normal acceleration, a
 print of two doubles or a double and two singles takes around 8 hours.
+
+## Thingiverse
+
+A customizable copy of this has been published to Thingiverse,
+allowing anyone to easily create their own drawer-specific divider
+sets.
+
+* [View on Thingiverse](https://www.thingiverse.com/thing:4186746)
+* [Customize on Thingiverse](https://www.thingiverse.com/apps/customizer/run?thing_id=4186746)
