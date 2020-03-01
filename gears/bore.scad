@@ -7,6 +7,8 @@
 */
 
 
+use <../common/utils.scad>;
+
 
 /*
   [[min diameter in inches, key width in inches], ...]
@@ -46,28 +48,6 @@ function vec_inch_to_mm(v) = [for(x=v) inch_to_mm(x)];
 function mm_to_inch(x) = x / 25.4;
 
 
-module _2d_cutout(thick, position, overshoot=0.05) {
-
-     // overshoot is used to prevent weird z-clipping artifacts, it
-     // ensures that the subtracted shape is slightly thicker than the
-     // solid body and passes both faces fully. If the cutout is not
-     // meant to go all the way through, set overshoot to 0 and
-     // overstate the thickness by some amount.
-
-     oz = thick + (overshoot * 2);
-     op = [position.x, position.y, position.z - overshoot];
-
-     difference() {
-	  children(0);
-	  translate(op) {
-	       linear_extrude(oz) {
-		    children(1);
-	       };
-	  };
-     };
-}
-
-
 module _bore(r, k, keygap=0.25) {
      // The the square key dimension k describes the height and width
      // of the key itself. While the width should match for the bore,
@@ -89,7 +69,7 @@ module with_bore(bore_r, key, thick,
 		 position=[0, 0, 0], angle=0,
 		 overshoot=0.05) {
 
-     _2d_cutout(thick, position, overshoot) {
+     2d_cutout(thick, position, overshoot) {
 	  union() {
 	       children();
 	  };
