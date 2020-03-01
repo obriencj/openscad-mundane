@@ -24,6 +24,28 @@ module double_sided(y_axis, thickness) {
 }
 
 
+module 2d_cutout(thick, position, overshoot=0.05) {
+
+     // overshoot is used to prevent weird z-clipping artifacts, it
+     // ensures that the subtracted shape is slightly thicker than the
+     // solid body and passes both faces fully. If the cutout is not
+     // meant to go all the way through, set overshoot to 0 and
+     // overstate the thickness by some amount.
+
+     oz = thick + (overshoot * 2);
+     op = [position.x, position.y, position.z - overshoot];
+
+     difference() {
+	  children(0);
+	  translate(op) {
+	       linear_extrude(oz) {
+		    children(1);
+	       };
+	  };
+     };
+}
+
+
 module rounded_plate(width, height, thickness, turn_r=5.1, $fn=50) {
      turn_d = turn_r * 2;
 
