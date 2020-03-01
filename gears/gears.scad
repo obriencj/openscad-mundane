@@ -56,18 +56,23 @@ function involute_points(modul, teeth, pressure=20, helix=0) =
 			  involute_point(base_r, i * rho_step, -tw)]);
 
 
+function root_radius(modul, teeth) =
+     let(gear_d = modul * teeth,
+	 gear_r = gear_d / 2,
+	 clearance =  (teeth < 3)? 0: modul / 6,
+	 root_d = gear_d - 2 * (modul + clearance),
+	 root_r = root_d / 2)
+     root_r;
+
+
 module _2d_gear_tooth(modul, teeth, pressure=20, helix=0) {
      polygon(involute_points(modul, teeth, pressure, helix));
 }
 
 
 module 2d_gear(modul, teeth, pressure=20, helix=0) {
-     gear_d = modul * teeth;
-     gear_r = gear_d / 2;
-     clearance =  (teeth < 3)? 0: modul / 6;
-     root_d = gear_d - 2 * (modul + clearance);
-     root_r = root_d / 2;
 
+     root_r = root_radius(modul, teeth);
      circle(root_r, $fa=1, $fs=modul/2);
 
      copy_rotate(z=360 / teeth, copies=teeth-1) {
@@ -91,6 +96,7 @@ module gear(modul, teeth, width, pressure=20, helix=0) {
 
 
 module herringbone_gear(modul, teeth, width, pressure=20, helix=30) {
+
      h_width = width / 2;
 
      translate([0, 0, h_width]) {
