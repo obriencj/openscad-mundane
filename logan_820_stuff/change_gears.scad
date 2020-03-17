@@ -10,6 +10,9 @@ function default_thick() = 1/2;
 function default_modul() = 1.5;
 function default_helix(idler=false) = 30 * (idler? -1: 1);
 
+function default_bore_mm() = inch_to_mm(default_bore());
+function default_thick_mm() = inch_to_mm(default_thick());
+
 
 module herringbone_change_gear(teefs, idler=false) {
 
@@ -18,8 +21,8 @@ module herringbone_change_gear(teefs, idler=false) {
      modul = default_modul();
      helix = default_helix(idler);
 
-     thick_mm = inch_to_mm(thick);
-     bore_mm = inch_to_mm(bore);
+     bore_mm = default_bore_mm();
+     thick_mm = default_thick_mm();
 
      // determine the space for the speed holes
      eng_keysize = eng_std_keysize(bore);
