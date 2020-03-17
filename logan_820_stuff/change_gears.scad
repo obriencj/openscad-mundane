@@ -1,5 +1,15 @@
+/*
+  author: Christopher O'Brien  <obriencj@gmail.com>
+  license: GPL v3
+
+  Herringbone change gears for a Logan lathe.
+
+  This set is a 24:48 with a 73 idler, which matches the assumptions
+  of the model 820 Quick Change Gear Box.
+*/
 
 
+use <../common/units.scad>;
 use <../gears/bore.scad>;
 use <../gears/gears.scad>;
 use <../gears/speed_holes.scad>;

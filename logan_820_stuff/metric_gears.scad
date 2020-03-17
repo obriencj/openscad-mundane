@@ -9,6 +9,7 @@
 */
 
 
+use <../common/units.scad>;
 use <../gears/bore.scad>;
 use <../gears/gears.scad>;
 use <../gears/speed_holes.scad>;
