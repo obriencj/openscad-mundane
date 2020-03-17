@@ -12,7 +12,7 @@ use <../common/copies.scad>;
 use <../common/utils.scad>;
 
 
-function speed_hole_threshold() = 5;
+function speed_hole_r_threshold() = 3;
 
 
 function speed_hole_count(ring_r, hole_r) =
@@ -22,11 +22,11 @@ function speed_hole_count(ring_r, hole_r) =
      count;
 
 
-module _speed_holes(inner_r, outer_r, spacing=2, $fn=100) {
+module speed_holes_profile(inner_r, outer_r, spacing=2, $fn=100) {
      ring_r = inner_r + ((outer_r - inner_r) / 2);
      hole_r = (outer_r - ring_r) - spacing;
 
-     if(hole_r > speed_hole_threshold()) {
+     if(hole_r > speed_hole_r_threshold()) {
 
 	  // count of holes (without spacing) that fir around the ring
 	  holes = speed_hole_count(ring_r, hole_r + spacing);
@@ -47,13 +47,28 @@ module _speed_holes(inner_r, outer_r, spacing=2, $fn=100) {
 }
 
 
-module with_speed_holes(inner_r, outer_r, thick, $fn=100) {
-
+module with_speed_holes(inner_r, outer_r, thick, spacing=2, $fn=100) {
      2d_cutout(thick, [0, 0, 0]) {
-	  children();
-	  #_speed_holes(inner_r, outer_r, $fn=$fn);
+	  union() {
+	       children();
+	  };
+	  speed_holes_profile(inner_r, outer_r, spacing, $fn=$fn);
      };
 }
+
+
+module speed_ring(inner, outer, gap, thick, $fn=100) {
+     linear_extrude(thick) {
+	  difference() {
+	       circle(outer);
+	       circle(inner);
+	       speed_holes_profile(inner, outer, gap, $fn=$fn);
+	  };
+     };
+}
+
+
+speed_ring(50, 80, 4, 10);
 
 
 // The end.

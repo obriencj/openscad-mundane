@@ -7,6 +7,7 @@
 */
 
 
+use <../common/units.scad>;
 use <../common/utils.scad>;
 
 
@@ -42,13 +43,7 @@ function eng_std_keysize(bore_d_inches) =
      0;
 
 
-function inch_to_mm(x) = x * 25.4;
-function vec_inch_to_mm(v) = [for(x=v) inch_to_mm(x)];
-
-function mm_to_inch(x) = x / 25.4;
-
-
-module _bore(r, k, keygap=0.25) {
+module bore_profile(r, k, keygap=0.25) {
      // The the square key dimension k describes the height and width
      // of the key itself. While the width should match for the bore,
      // the height should have some "wiggle room." That value is the
@@ -65,6 +60,14 @@ module _bore(r, k, keygap=0.25) {
 }
 
 
+module eng_std_bore_profile(bore_d_inches, keyed=false) {
+     r = inch_to_mm(bore_d_inches) / 2;
+     k = inch_to_mm(keyed? eng_std_keysize(bore_d_inches): 0);
+
+     bore_profile(r, k);
+}
+
+
 module with_bore(bore_r, key, thick,
 		 position=[0, 0, 0], angle=0,
 		 overshoot=0.05) {
@@ -74,7 +77,7 @@ module with_bore(bore_r, key, thick,
 	       children();
 	  };
 	  rotate([0, 0, angle]) {
-	       _bore(bore_r, key);
+	       bore_profile(bore_r, key);
 	  };
      };
 }
@@ -84,11 +87,13 @@ module with_eng_std_bore(bore_d_inches, depth_inches, keyed=false,
 			 position=[0, 0, 0], angle=0,
 			 overshoot=0.05) {
 
-     r = inch_to_mm(bore_d_inches) / 2;
-     k = inch_to_mm(keyed? eng_std_keysize(bore_d_inches): 0);
-     z = inch_to_mm(depth_inches);
-     with_bore(r, k, z, position, angle, overshoot) {
-	  children();
+     2d_cutout(inch_to_mm(depth_inches), position, overshoot) {
+	  union() {
+	       children();
+	  };
+	  rotate([0, 0, angle]) {
+	       eng_std_bore_profile(bore_d_inches, keyed);
+	  };
      };
 }
 
@@ -115,25 +120,14 @@ module with_5_8_inch_bore(depth_inches, keyed=false,
 }
 
 
-module eng_cube(eng_dimensions, center=false) {
-     cube(vec_inch_to_mm(eng_dimensions), center=center);
-}
-
-
-module 5_8_inch_square_spacer(thick_inches, keyed=true) {
-
-     // since the eng_cube will be centered, we need to shift the
-     // starting position of the bore downwards by half that amount.
-     pos = vec_inch_to_mm([0, 0, -thick_inches / 2]);
-
-     with_5_8_inch_bore(thick_inches, keyed=keyed, position=pos, angle=45) {
-	  eng_cube([1, 1, thick_inches], true);
+module 5_8_inch_spacer(thick_inches, keyed=true) {
+     with_5_8_inch_bore(thick_inches, keyed=keyed, angle=-30) {
+	  cylinder(inch_to_mm(thick_inches), r=inch_to_mm(0.75), $fn=6);
      };
 }
 
 
-/* a 1" x 1" x 1/4" spacer with a 5/8" keyed bore */
-5_8_inch_square_spacer(1/4);
+5_8_inch_spacer(1/4);
 
 
 // The end.
