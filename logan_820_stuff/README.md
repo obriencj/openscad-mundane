@@ -49,7 +49,7 @@ won't rub against one another).
 
 ## Spacer
 
-Just a hex with the same with, bore, and keyway as the gears above.
+Just a hex with the same thickness, bore, and keyway as the gears above.
 
 
 ## Slide Stop
