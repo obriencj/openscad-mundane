@@ -5,9 +5,11 @@
 
 
 use <../common/utils.scad>;
-use <../common/hinges.scad>;
-use <../common/clasp2.scad>;
+
+use <../hinges/hinges.scad>;
+
 use <clamshell.scad>;
+use <clasp2.scad>;
 
 
 module retainer_box(i_width, i_depth, i_height, wall_thick=1.5, chamfer=4) {

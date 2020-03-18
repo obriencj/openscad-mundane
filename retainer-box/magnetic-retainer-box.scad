@@ -5,7 +5,9 @@
 
 
 use <../common/utils.scad>;
-use <../common/hinges.scad>;
+
+use <../hinges/hinges.scad>;
+
 use <clamshell.scad>;
 
 
