@@ -19,7 +19,7 @@ function shared_tangents(p1, p2) =
 
 
 
-module 2d_rounded_polygon(points, $fn=100) {
+module _rounded_polygon(points, $fn=100) {
 /*
   each point is [x, y, r] of a circle
 
@@ -58,15 +58,19 @@ module 2d_rounded_polygon(points, $fn=100) {
 }
 
 
-module rounded_polygon(points, thick, $fn=100) {
+module rounded_polygon(points, thick=0, $fn=100) {
      /*
        each point in points is a vector of [x, y, r] where r is
        positive to indicate that it is an interior point, and negative
        to indicate it is an exterior point.
      */
 
-     linear_extrude(thick) {
-	  2d_rounded_polygon(points, $fn);
+     if(thick) {
+	  linear_extrude(thick) {
+	       _rounded_polygon(points, $fn);
+	  };
+     } else {
+	  _rounded_polygon(points, $fn);
      };
 }
 
