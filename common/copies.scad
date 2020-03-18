@@ -19,15 +19,19 @@ module copy_translate(x=0, y=0, z=0, copies=1) {
 	  };
      } else {
 	  children();
-     }
+     };
 }
 
 
 module copy_rotate(x=0, y=0, z=0, copies=1) {
-     for(i = [0:copies]) {
-	  rotate([x * i, y * i, z * i]) {
-	       children();
+     if(copies) {
+	  for(i = [0:copies]) {
+	       rotate([x * i, y * i, z * i]) {
+		    children();
+	       };
 	  };
+     } else {
+	  children();
      };
 }
 
@@ -38,6 +42,16 @@ module copy_grid(offsets=[0, 0, 0], grid=[1, 1, 1]) {
 	       copy_translate(z=offsets.z, copies=grid.z-1) {
 		    children();
 	       };
+	  };
+     };
+}
+
+
+module duplicate(move_v=[0,0,0], rotate_v=[0,0,0]) {
+     children();
+     translate(move_v) {
+	  rotate(rotate_v) {
+	       children();
 	  };
      };
 }

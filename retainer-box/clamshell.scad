@@ -4,7 +4,7 @@
 */
 
 
-use <../common/utils.scad>;
+use <../common/copies.scad>;
 
 
 module _curvybits(angle, height, full_r, little_r, chamfer, $fn=100) {

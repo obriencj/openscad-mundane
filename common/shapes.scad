@@ -4,20 +4,8 @@
 */
 
 
-function shared_tangents_(p1, p2) =
-     let(r1 = p1[2],
-	 r2 = p2[2],
-	 dx = p2.x - p1.x,
-	 dy = p2.y - p1.y,
-	 d = sqrt(dx * dx + dy * dy),
-	 theta = atan2(dy, dx) + acos((r1 - r2) / d))
-     [[p1.x + (cos(theta) * r1), p1.y + (sin(theta) * r1)],
-      [p2.x + (cos(theta) * r2), p2.y + (sin(theta) * r2)]];
-
-
 function shared_tangents(p1, p2) =
-    let(
-        r1 = p1[2],
+    let(r1 = p1[2],
         r2 = p2[2],
         dx = p2.x - p1.x,
         dy = p2.y - p1.y,
@@ -26,11 +14,12 @@ function shared_tangents(p1, p2) =
         xa = p1.x +(cos(theta) * r1),
         ya = p1.y +(sin(theta) * r1),
         xb = p2.x +(cos(theta) * r2),
-        yb = p2.y +(sin(theta) * r2)
-    )[ [xa, ya], [xb, yb] ];
+        yb = p2.y +(sin(theta) * r2))
+     [ [xa, ya], [xb, yb] ];
 
 
-module _rounded_polygon(points, $fn=100) {
+
+module 2d_rounded_polygon(points, $fn=100) {
 /*
   each point is [x, y, r] of a circle
 
@@ -69,18 +58,16 @@ module _rounded_polygon(points, $fn=100) {
 }
 
 
-module rounded_polygon(points, thick=0, $fn=100) {
+module rounded_polygon(points, thick, $fn=100) {
      /*
        each point in points is a vector of [x, y, r] where r is
        positive to indicate that it is an interior point, and negative
        to indicate it is an exterior point.
      */
 
-     if(thick > 0) {
-	  linear_extrude(thick) _rounded_polygon(points, $fn);
-     } else {
-	  _rounded_polygon(points, $fn);
-     }
+     linear_extrude(thick) {
+	  2d_rounded_polygon(points, $fn);
+     };
 }
 
 
@@ -177,16 +164,29 @@ module d_ring(ring_ir, cross_r, factor=0.25, $fn=100) {
 }
 
 
-module rounded_plate(width, height, thickness, turn_r=5.1, $fn=50) {
+
+module rounded_plate(width, depth, height, turn_r=5.1, $fn=50) {
      turn_d = turn_r * 2;
 
      translate([turn_r, turn_r, 0]) {
-          linear_extrude(thickness) {
-               minkowski() {
-                    square([width - turn_d, height - turn_d]);
-                    circle(turn_r);
-               };
-          };
+	  linear_extrude(height) {
+	       minkowski() {
+		    square([width - turn_d, depth - turn_d]);
+		    circle(turn_r);
+	       };
+	  };
+     };
+}
+
+
+module rounded_box(width, depth, height, turn_r=5, $fn=50) {
+     turn_d = turn_r * 2;
+
+     translate([turn_r, turn_r, turn_r]) {
+	  minkowski() {
+	       cube([width - turn_d, depth - turn_d, height - turn_d]);
+	       sphere(turn_r);
+	  };
      };
 }
 

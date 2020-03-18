@@ -4,14 +4,7 @@
 */
 
 
-module duplicate(move_v=[0,0,0], rotate_v=[0,0,0]) {
-     children();
-     translate(move_v) {
-	  rotate(rotate_v) {
-	       children();
-	  };
-     };
-}
+use <copies.scad>;
 
 
 module double_sided(y_axis, thickness) {
@@ -24,7 +17,7 @@ module double_sided(y_axis, thickness) {
 }
 
 
-module 2d_cutout(thick, position, overshoot=0.05) {
+module 2d_cutout(thick, position=[0, 0, 0], overshoot=0.05) {
 
      // overshoot is used to prevent weird z-clipping artifacts, it
      // ensures that the subtracted shape is slightly thicker than the
@@ -46,16 +39,20 @@ module 2d_cutout(thick, position, overshoot=0.05) {
 }
 
 
-module rounded_plate(width, height, thickness, turn_r=5.1, $fn=50) {
-     turn_d = turn_r * 2;
+module 2d_words(txt_v, size=6, spacing=0,
+		font="Liberation Sans", style="Bold",
+		halign="center", valign="center", $fn=50) {
 
-     translate([turn_r, turn_r, 0]) {
-	  linear_extrude(thickness) {
-	       minkowski() {
-		    square([width - turn_d, height - turn_d]);
-		    circle(turn_r);
-	       };
-	  };
+     /* 2d lines of text */
+
+     fontstyle = str(font, ":style=", style);
+
+     lspacing = (spacing == 0)? size + 2: spacing;
+
+     for(i = [0 : len(txt_v) - 1]) {
+	  translate([0, i * -lspacing, 0])
+	       text(txt_v[i], size=size, font=fontstyle,
+		    halign=halign, valign=valign);
      };
 }
 
@@ -64,16 +61,11 @@ module words(txt_v, size=6, thick=5, spacing=0,
              font="Liberation Sans", style="Bold",
              halign="center", valign="center", $fn=50) {
 
-     fontstyle = str(font, ":style=", style);
+     /* extruded lines of text */
 
-     lspacing = (spacing == 0)? size + 2: spacing;
-
-     linear_extrude(height=thick) {
-          for(i = [0 : len(txt_v) - 1]) {
-               translate([0, i * -lspacing, 0])
-                    text(txt_v[i], size=size, font=fontstyle,
-                         halign=halign, valign=valign);
-          };
+     linear_extrude(thick) {
+	  2d_words(text_v, size, spacing, font, style,
+		   halign, valign, $fn);
      };
 }
 

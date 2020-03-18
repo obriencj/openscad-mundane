@@ -4,7 +4,7 @@
 */
 
 
-use <../common/utils.scad>;
+use <../common/shapes.scad>;
 
 
 module plaque_base(width=30, height=20, rim=1, thick=4, inset=1, $fn=50) {
