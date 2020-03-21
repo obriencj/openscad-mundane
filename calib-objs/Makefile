@@ -1,5 +1,5 @@
 
-SOURCES = nailkey.scad
+SOURCES = cube.scad
 
 include ../common/stl.mk
 

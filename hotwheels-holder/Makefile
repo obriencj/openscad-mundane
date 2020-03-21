@@ -1,25 +1,10 @@
 
+SOURCES = left.scad right.scad shelf.scad
 
-SOURCES = $(wildcard *.scad)
+include ../common/stl.mk
 
-
-OPENSCAD = openscad
-ADMESH = admesh
-
-
-default: all
-
-
-all: $(SOURCES:.scad=.stl)
-
-
-clean:
-	$(RM) *.stl
-
-
-%.stl: %.scad
-	$(OPENSCAD) $< -o $@
-	$(ADMESH) $@ -b $@
-
+left.openscad.stl : shelf.scad copies.scad shapes.scad
+right.openscad.stl : shelf.scad copies.scad shapes.scad
+shelf.openscad.stl : copies.scad shapes.scad
 
 # The end.

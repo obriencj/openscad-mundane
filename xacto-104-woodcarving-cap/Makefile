@@ -1,5 +1,5 @@
 
-SOURCES = nailkey.scad
+SOURCES = xacto-104-cap.scad
 
 include ../common/stl.mk
 
