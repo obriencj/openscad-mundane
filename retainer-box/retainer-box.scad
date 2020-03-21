@@ -3,6 +3,7 @@
   license: GNU LGPL v3+
 */
 
+use <../common/copies.scad>;
 
 use <../common/utils.scad>;
 
