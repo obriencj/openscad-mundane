@@ -1,6 +1,6 @@
 
 OPENSCAD ?= openscad
 ADMESH ?= admesh
-TIME ?= /usr/bin/time --verbose
+TIME ?= time --verbose
 
 # vim:ft=make
