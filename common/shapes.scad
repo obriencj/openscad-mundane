@@ -67,10 +67,14 @@ module rounded_polygon(points, thick=0, $fn=100) {
 
      if(thick) {
 	  linear_extrude(thick) {
-	       _rounded_polygon(points, $fn);
+	       union() {
+		    _rounded_polygon(points, $fn);
+	       };
 	  };
      } else {
-	  _rounded_polygon(points, $fn);
+	  union() {
+	       _rounded_polygon(points, $fn);
+	  };
      };
 }
 
