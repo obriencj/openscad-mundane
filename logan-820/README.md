@@ -27,6 +27,7 @@ All are herringbone, and all have a 5/8" keyed bore. They have "speed
 holes" which decreases the amount of material used, but also adds a
 lot of strength through increased walls.
 
+
 ## Metric Transposing Gears
 
 In the event that I want to try cutting metric, I've set up a stacked
@@ -56,3 +57,14 @@ Just a hex with the same thickness, bore, and keyway as the gears above.
 
 Not really much of a stop, but useful for clamping a gauge to the ways
 like a poor-bloke's DRO.
+
+
+## Drawbar Knob
+
+I do some light milling using an MT3 end mill holder and a Palmgren
+250 lathe vise on the compound slide. In order to effectively retain
+the MT3 tooling, I cut a short piece of cold-rolled steel to length,
+and turned threads on either end (3/8" 16TPI). This works fine but to
+make it easier to install the drawbar and thread it into the back end
+of the tooling, I made this knob. It fits the appropriate sized nut,
+and is locked in place with an opposing nut from the other side.
