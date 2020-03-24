@@ -1,25 +1,8 @@
 
+SOURCES = bitholder.scad bitholder_36.scad
 
-SOURCES = $(wildcard *.scad)
+include ../common/stl.mk
 
-
-OPENSCAD = openscad
-ADMESH = admesh
-
-
-default: all
-
-
-all: $(SOURCES:.scad=.stl)
-
-
-clean:
-	$(RM) *.stl
-
-
-%.stl: %.scad
-	$(OPENSCAD) $< -o $@
-	$(ADMESH) $@ -b $@
-
+bitholder_36.openscad.stl : bitholder.scad
 
 # The end.

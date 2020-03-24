@@ -1,6 +1,8 @@
 
 use <../two-sided-snap-coin/two-sided-snap-coin.scad>;
 
+use <br-keychain.scad>;
+
 
 module feather(width, thick, $fn=100) {
      resize([width, 0, 0], auto=[false, true, false]) {

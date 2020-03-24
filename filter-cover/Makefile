@@ -1,25 +1,8 @@
 
+SOURCES = airbox.scad cover.scad
 
-SOURCES = $(wildcard *.scad)
+include ../common/stl.mk
 
-
-OPENSCAD = openscad
-ADMESH = admesh
-
-
-default: all
-
-
-all: $(SOURCES:.scad=.stl)
-
-
-clean:
-	$(RM) *.stl
-
-
-%.stl: %.scad
-	$(OPENSCAD) $< -o $@
-	$(ADMESH) $@ -b $@
-
+airbox.openscad.stl : cover.scad
 
 # The end.

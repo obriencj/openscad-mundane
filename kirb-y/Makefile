@@ -1,25 +1,9 @@
 
+SOURCES = kirb-bust-inset.scad kirb-coin.scad
 
-SOURCES = $(wildcard *.scad)
+include ../common/stl.mk
 
-
-OPENSCAD = openscad
-ADMESH = admesh
-
-
-default: all
-
-
-all: $(SOURCES:.scad=.stl)
-
-
-clean:
-	$(RM) *.stl
-
-
-%.stl: %.scad
-	$(OPENSCAD) $< -o $@
-	$(ADMESH) $@ -b $@
-
+kirb-bust-inset.openscad.stl : kirb-face.stl
+kirb-coin.openscad.stl : kirb-face.stl
 
 # The end.

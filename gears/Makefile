@@ -1,25 +1,10 @@
 
+SOURCES = bore.scad gears.scad speed_holes.scad
 
-SOURCES = $(wildcard *.scad)
+include ../common/stl.mk
 
-
-OPENSCAD = openscad
-ADMESH = admesh
-
-
-default: all
-
-
-all: $(SOURCES:.scad=.stl)
-
-
-clean:
-	$(RM) *.stl
-
-
-%.stl: %.scad
-	$(OPENSCAD) $< -o $@
-	$(ADMESH) $@ -b $@
-
+bore.openscad.stl : units.scad
+gears.openscad.stl : copies.scad
+speed_holes.openscad.stl : copies.scad units.scad
 
 # The end.

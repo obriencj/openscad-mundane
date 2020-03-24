@@ -1,5 +1,5 @@
 
-SOURCES = nailkey.scad
+SOURCES = zoe.scad
 
 include ../common/stl.mk
 
