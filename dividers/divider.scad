@@ -63,6 +63,11 @@ module double_divider(xy=100, tall=75) {
 };
 
 
+module triple_divider(xy=100, tall=75) {
+     divider(xy * 3, xy, tall);
+}
+
+
 module quad_divider(xy=100, tall=75) {
      divider(xy * 2, xy * 2, tall);
 };
@@ -89,8 +94,10 @@ module all_dividers(xy=100, tall=75) {
      double_divider(xy, tall);
      translate([-xyo, 0, 0]) single_divider(xy, tall);
      translate([0, xyo, 0]) quad_divider(xy, tall);
-     translate([-xyo, -xyo, 0]) halved_divider(xy, tall);
-     translate([0, -xyo, 0]) quartered_divider(xy, tall);
+
+     translate([-xyo, 2 * xyo, 0]) halved_divider(xy, tall / 2);
+     translate([-xyo, xyo, 0]) quartered_divider(xy, tall / 2);
+     translate([-xyo, -xyo, 0]) triple_divider(xy, tall);
 };
 
 
