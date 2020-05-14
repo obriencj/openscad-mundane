@@ -27,7 +27,7 @@ module hinge_join(width, height, standoff, count, pin=0.5,
 	       rotate([0, 0, 180]) {
 		    difference() {
 			 children();
-			 #translate([(overall / -2) + (width / 2), 0,
+			 translate([(overall / -2) + (width / 2), 0,
 				     height - 0]) {
 			      rotate([0, 90, 0]) {
 				   cylinder(overall - width, bore_r, bore_r);
@@ -57,7 +57,7 @@ module hinge_half(width, height, standoff, count=2, pin=0.5,
 	       union() {
 		    // is is the body of the barrel and a slanted
 		    // segment that joins to the opposing parts
-		   hull() {
+		    hull() {
 			 translate([gap, 0, height]) {
 			      rotate([0, 90, 0]) {
 				   cylinder(gwid, barrel_r, barrel_r);
@@ -68,19 +68,20 @@ module hinge_half(width, height, standoff, count=2, pin=0.5,
 			 };
 		    };
 
-		    // this is the connecting pin, driven through the
-		    // whole hing, and subtracted later from half of
-		    // the hinges during hinge_join
-		    translate([-1, 0, height]) {
-			 rotate([0, 90, 0]) {
-			      cylinder(width + 2, pin, pin);
+		    if(pin) {
+			 // this is the connecting pin, driven through the
+			 // whole hing, and subtracted later from half of
+			 // the hinges during hinge_join
+			 translate([-1, 0, height]) {
+			      rotate([0, 90, 0]) {
+				   cylinder(width + 2, pin, pin);
+			      };
 			 };
 		    };
 	       };
 	  };
      };
 }
-
 
 
 module hinges(barrel_width=4, center_height=8,
