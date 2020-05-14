@@ -4,6 +4,9 @@
 */
 
 
+use <copies.scad>;
+
+
 function shared_tangents(p1, p2) =
     let(r1 = p1[2],
         r2 = p2[2],
@@ -197,6 +200,33 @@ module rounded_box(width, depth, height, turn_r=5, $fn=50) {
 	  };
      };
 }
+
+
+module double_rounded_box(width, depth, height,
+			  corner_r, turn_r, $fn=100) {
+
+     corner_d = corner_r * 2;
+     turn_d = turn_r * 2;
+
+     hull() {
+	  copy_translate(z = height - turn_d) {
+	       duplicate([width, depth, 0], [0, 0, 180]) {
+		    duplicate([width, 0, 0], [0, 0, 90]) {
+			 translate([corner_r, corner_r, turn_r]) {
+			      rotate([0, 0, 180]) {
+				   rotate_extrude(angle=90, $fn=$fn) {
+					translate([corner_r - turn_r, 0]) {
+					     circle(turn_r, $fn=$fn/2);
+					};
+				   };
+			      };
+			 };
+		    };
+	       };
+	  };
+     };
+}
+
 
 
 // The end.
