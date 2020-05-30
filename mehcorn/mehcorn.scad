@@ -7,9 +7,7 @@
 
 
 
-// GPL v3 Threading module for OpenSCAD
-// http://dkprojects.net/openscad-threads/
-use <threads.scad>;
+use <../common/threads.scad>
 
 
 module freecorn_threads(radius, internal=0) {
