@@ -70,4 +70,36 @@ module words(txt_v, size=6, thick=5, spacing=0,
 }
 
 
+//
+// rotate the results of linear_extrude() so instead of extruding towards
+// positive z, it's extruding towards positive y, with the object in the
+// positive xz space.
+//
+// contributed by @vathpela
+//
+module xy_to_xyz()
+{
+    rotate([90, 0, 0])
+        mirror([0, 0, 1])
+            children();
+}
+
+//
+// extrude a 2d polygon as if it's in the positive xz space, extruding into
+// positive y.
+//
+// contributed by @vathpela
+//
+module linear_extrude_y(height=1, center=false, convexity=10, twist=0,
+                        slices=20, scale=1.0, $fn=16)
+{
+    xy_to_xyz()
+        linear_extrude(height=height, center=center,
+                       convexity=convexity, twist=twist,
+                       slices=slices, scale=scale, $fn=$fn)
+            children();
+}
+
+
+
 // The end.

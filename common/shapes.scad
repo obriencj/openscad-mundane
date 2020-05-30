@@ -228,5 +228,125 @@ module double_rounded_box(width, depth, height,
 }
 
 
+//
+// mill_round chamfers the edges off its polygon children in order to
+// produce a rounded polygon, as if milled rather than turned.
+//
+// contributed by @vathpela
+//
+module mill_round(bounds=[10, 10], radius=1, $fn=200)
+{
+    d = bounds[0];
+    w = bounds[1];
+    r = radius;
+
+    offset(r=r, chamfer=true)
+        offset(r=-r, chamfer=true)
+            children();
+}
+
+
+//
+// milled_round_square builds a square of size specified by
+//
+//   size=[x,y]
+//
+// with a corner radius specified by
+//
+//   radius=r
+//
+// contributed by @vathpela
+//
+module milled_round_square(size=[10, 10], radius=1, $fn=200)
+{
+    mill_round(bounds=size, radius=radius, $fn=$fn)
+        square(size);
+}
+
+//
+// mill_round_3d() rounds the edges of its children in three demensions, as
+// if by three passes of a mill, rather than turned on a lathe.
+//
+// It accomplishes this by cutting polygons in the [+x,+y,+z] space
+// described by its 3 polygon children:
+//
+//   xy polygon
+//   xz polygon
+//   yz polygon
+//
+// bounds=[width, depth, height] describe the maximum distances on which to
+// apply the offset, because scad can't reasonably deal with infinities or
+// tell me where child objects *are*, even in coordinates from a relative
+// origin.
+//
+// corner radiuses are specified by radii=[xr, yr, zr]
+//
+// note that the rounding is done using negative offset radii.
+//
+// the child polygons must be placed in the following planes and bounds:
+//
+//   [+x,+y] bounded by [0, 0] and bounds[0:1]
+//   [+y,+z] bounded by [0, 0] and bounds[0:2]
+//   [+y,+z] bounded by [0, 0] and bounds[1:2]
+//
+// contributed by @vathpela
+//
+module mill_round_3d(bounds=[10, 10, 10], radii=[1, 1, 1], $fn=200)
+{
+    w = bounds[0];
+    d = bounds[1];
+    h = bounds[2];
+    rx = radii[0];
+    ry = radii[1];
+    rz = radii[2];
+
+    intersection()
+    {
+        linear_extrude(height=h)
+            offset(r=ry, chamfer=true)
+                offset(r=-ry, chamfer=true)
+                    children(0);
+        rotate([-90, -90, 0])
+            linear_extrude(height=w)
+                offset(r=rz, chamfer=true)
+                    offset(r=-rz, chamfer=true)
+                        children(1);
+        rotate([0, 90, 0])
+            linear_extrude(height=d)
+                offset(r=rx, chamfer=true)
+                    offset(r=-rx, chamfer=true)
+                        children(2);
+    }
+}
+
+//
+// milled_round_box draws a box with edges rounded as if by three passes
+// with a mill, rather than as if turned on a lathe.  The box is desciribed
+// by:
+//
+//   size[width-in-x, depth-in-y, height-in-z]
+//
+// with corner radii carved out at thicknesses described by:
+//
+//   radii[xz, yz, xy]
+//
+// where xz/yz/xy describe the point of view the box is being observed from
+//
+// contributed by @vathpela
+//
+module milled_round_box(size=[10, 10, 10], radii=[1, 1, 1], $fn=200)
+{
+    w = size[0];
+    d = size[1];
+    h = size[2];
+
+    mill_round_3d(bounds=size, radii=radii)
+    {
+        polygon([[0, 0], [w, 0], [w, d], [0, d]]);
+        polygon([[0, 0], [0, w], [h, w], [h, 0]]);
+        polygon([[0, 0], [0, d], [-h, d], [-h, 0]]);
+    }
+}
+
 
 // The end.
