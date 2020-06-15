@@ -5,6 +5,8 @@
 *.stl
 *.tar
 *~
+.*.sw?
 .#*
 .DS_Store
+.sw?
 tmp

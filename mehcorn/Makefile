@@ -3,6 +3,6 @@ SOURCES = mehcorn.scad paintstand.scad
 
 include ../common/stl.mk
 
-mehcorn.openscad.stl : threads.scad
+mehcorn.openscad.stl : ../common/threads.scad
 
 # The end.
