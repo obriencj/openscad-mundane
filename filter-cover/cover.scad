@@ -43,7 +43,7 @@ module filter_plate(thick, $fn=50) {
      */
 
 
-     outer_dims = [87, 69, thick];
+     outer_dims = [87, 65, thick];
 
      hole_r = 2.5;
      hole_spacing = 73;
@@ -85,7 +85,7 @@ module filter_cover(thick=4, $fn=50) {
      lip = 2;
      lip_thick = 2;
 
-     ridge_dims = [58, 58, thick];
+     ridge_dims = [62, 60, thick];
 
      cutout_dims = [ridge_dims.x - lip,
 		    ridge_dims.y - lip,
@@ -97,7 +97,11 @@ module filter_cover(thick=4, $fn=50) {
 
 	  // pop out the honeycomb holes
 	  translate([0, 0, -1]) {
-	       cutout_pattern(cutout_dims);
+	       if ( 1 ) {
+		    cutout_pattern(cutout_dims);
+	       } else {
+		    cube(cutout_dims, center=true);
+	       }
 	  };
 
 	  // and cut away so that the honeycomb is inset
