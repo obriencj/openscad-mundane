@@ -41,8 +41,9 @@ module cross_hole_profile(outer_r=2.5, inner_r=1.00) {
 }
 
 
-module finial_cap($fn=100) {
-     barrel_r = 13 / 2;
+module finial_cap(cross_r=[2.5, 1.0], $fn=100) {
+
+     barrel_r = 12 / 2;
      cap_r = 37 / 2;
 
      union() {
@@ -70,7 +71,12 @@ module finial_cap($fn=100) {
 }
 
 
-finial_cap();
+function wood_screw() = [2.5, 1.0];
+function quarter_inch() = [6.35 / 2, 4.953 / 2];
+
+
+// finial_cap(quarter_inch());
+finial_cap(wood_screw());
 
 
 // The end.
