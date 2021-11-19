@@ -57,7 +57,7 @@ module 2d_words(txt_v, size=6, spacing=0,
 }
 
 
-module words(txt_v, size=6, thick=5, spacing=0,
+module words(text_v, size=6, thick=5, spacing=0,
              font="Liberation Sans", style="Bold",
              halign="center", valign="center", $fn=50) {
 
