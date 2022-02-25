@@ -176,11 +176,23 @@ module d_ring(ring_ir, cross_r, factor=0.25, $fn=100) {
 
 
 
+module maybe_linear_extrude(thick) {
+     if(thick) {
+          linear_extrude(thick) {
+               children();
+          };
+     } else {
+          children();
+     }
+}
+
+
+
 module rounded_plate(width, depth, height, turn_r=5.1, $fn=50) {
      turn_d = turn_r * 2;
 
      translate([turn_r, turn_r, 0]) {
-	  linear_extrude(height) {
+	  maybe_linear_extrude(height) {
 	       minkowski() {
 		    square([width - turn_d, depth - turn_d]);
 		    circle(turn_r);
