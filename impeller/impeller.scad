@@ -1,4 +1,5 @@
 
+
 use <../common/copies.scad>;
 
 
@@ -83,7 +84,7 @@ module top_impeller(height, base_thick, blade_thick,
                linear_extrude(2) {
                     copy_rotate(z=90, copies=3) {
                          translate([7.5, 0]) {
-                              circle(0.52);
+                              circle(1);
                          };
                     };
                };
@@ -107,7 +108,7 @@ module bottom_impeller(height, base_thick, blade_thick,
           linear_extrude(height + 0.5) {
                copy_rotate(z=90, copies=3) {
                     translate([7.5, 0]) {
-                         circle(0.5);
+                         circle(0.9);
                     };
                };
           };
@@ -122,9 +123,9 @@ module blower_impeller(split=true) {
      difference() {
           union() {
                translate([0, 0, 5 + offz]) {
-                    top_impeller(34, 3, 3, 58, 10, 12);
+                    top_impeller(33, 3, 3, 57.5, 10, 12);
                };
-               bottom_impeller(5, 1, 3, 58, 10, 12);
+               bottom_impeller(5, 1, 3, 57.5, 10, 12);
           };
           translate([0, 0, -1]) {
                linear_extrude(20) {
